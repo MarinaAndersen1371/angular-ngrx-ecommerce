@@ -1,0 +1,78 @@
+<form #f="ngForm" (ngSubmit)="onSubmit(f)">
+  <h5 class="text-danger mt-3">Please fill out all fields</h5>
+  <div class="row mt-5">
+    <div class="col-5">
+      <h3>Shipping Address</h3>
+      <div class="form-group my-3">
+        <label>Recipient Name:</label>
+        <input type="text" name="name" ngModel #name required id="name" class="form-control form-control-lg"
+          placeholder="Enter Name">
+      </div>
+      <div class="form-group my-3">
+        <label>Address:</label>
+        <input type="text" name="address" ngModel #address required id="address" class="form-control form-control-lg"
+          placeholder="Enter Address">
+      </div>
+      <div class="form-group my-3">
+        <label>City:</label>
+        <input type="text" name="city" ngModel #city required id="city" class="form-control form-control-lg"
+          placeholder="Enter City">
+      </div>
+      <div class="form-group my-3">
+        <label>Postal Code:</label>
+        <input type="text" name="postalCode" ngModel #postalCode required id="postalCode"
+          class="form-control form-control-lg" placeholder="Enter Postal Code">
+      </div>
+      <div class="form-group my-3">
+        <label>Country:</label>
+        <input type="text" name="country" ngModel #country required id="country" class="form-control form-control-lg"
+          placeholder="Enter Country">
+      </div>
+    </div>
+    <div class="col-1">
+    </div>
+
+    <div class="col-4">
+      <h3>Choose Shipping type</h3>
+      <div class="form-group my-4">
+        <p> <input type="radio" name="delivery" ngModel #delivery required value="Standard" class="mx-2"> Standard
+          Delivery / €5.00 <br>
+          (on total amount over $800 Standard Delivery is free)</p>
+        <p><input type="radio" name="delivery" ngModel #delivery required value="Fastest" class="mx-2"> Fastest
+          Delivery
+          / €10.00
+          <br>(within 24 hours)
+        </p>
+      </div>
+      <h3 class="mt-5">Payment</h3>
+      <div class="form-group my-3">
+        <p>Payment Method:<br>
+          <input type="radio" name="method" ngModel #method required value="PayPal" class="mx-2"> PayPal
+          <input type="radio" name="method" ngModel #method required value="Visa" class="mx-2"> Visa
+          <input type="radio" name="method" ngModel #method required value="MasterCard" class="mx-2"> MasterCard
+        </p>
+      </div>
+      <div class="form-group my-3">
+        <label>Card Number:</label>
+        <input type="text" name="account" ngModel #account required id="account" class="form-control form-control-lg"
+          placeholder="Enter Card Number">
+      </div>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col-2"></div>
+    <div class="col-3">
+      <button type="button" class="btn btn-secondary col-12" [routerLink]="['/auth/usercart', _id]"
+        routerLinkActive="router-link-active">
+        <fa-icon [icon]="faArrowLeft"></fa-icon> Go Back to Cart
+      </button>
+    </div>
+    <div class="col-1"></div>
+    <div class="col-3"><button type="submit" class="btn btn-secondary col-12"
+        [disabled]="f.form.invalid || f.value.name && f.value.name.trim() === '' || f.value.address && f.value.address.trim() ==='' || f.value.postalCode && f.value.postalCode.trim() === '' || f.value.city && f.value.city.trim() === '' || f.value.country && f.value.country.trim() === '' || f.value.delivery && f.value.delivery === '' || f.value.account && f.value.account.trim() ==='' || f.value.method && f.value.method ===''">
+        Proceed to Checkout <fa-icon [icon]="faArrowRight"></fa-icon>
+      </button>
+    </div>
+    <div class="col-3"></div>
+  </div>
+</form>

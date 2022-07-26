@@ -1,0 +1,35 @@
+<div class="row" *ngIf="vm$ | async as vm">
+
+  <div class="row">
+    <div class="col-1"></div>
+    <div class="col-4 mt-5">
+      <fa-icon [icon]="faUserTie" class="profile-icon-male text-info" *ngIf="vm.user.gender === 'Male'">
+      </fa-icon>
+      <fa-icon [icon]="faUser" class="profile-icon-female text-warning " *ngIf="vm.user.gender === 'Female'">
+      </fa-icon>
+      <h3 class="my-2"><strong>Account Status:</strong></h3>
+    </div>
+
+    <div class="col-5">
+      <h3 class="text-center my-5"><strong>Profile Details:</strong></h3>
+      <div class="card border-info mb-3">
+        <div class="card-header">
+          <h5><strong>First Name: </strong> {{vm.user.firstName}}</h5>
+          <h5><strong>Last Name: </strong> {{vm.user.username}}</h5>
+        </div>
+        <div class="card-body">
+          <p><strong>Email Address: </strong> {{vm.user.email}}</p>
+          <p><strong>Password: </strong> ******************</p>
+          <p><strong>Phone Number: </strong> {{vm.user.phone}}</p>
+          <p><strong>Date of Birth: </strong> {{vm.user.birthday}}</p>
+          <p><strong>Type of Purchasing: </strong> {{vm.user.purpose}}</p>
+        </div>
+      </div>
+      <button class="btn btn-secondary m-1" [routerLink]="['/auth/editprofile', vm.user._id]">Edit Profile
+        <fa-icon [icon]="faArrowRight">
+        </fa-icon>
+      </button>
+    </div>
+    <div class="col-2"></div>
+  </div>
+</div>

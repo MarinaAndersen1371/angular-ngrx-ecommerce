@@ -1,0 +1,44 @@
+<div class="product-list" *ngIf="vm$|async as vm">
+  <h3 class="mt-4 mb-4">User List</h3>
+
+  <table class="table table-hover text-center">
+
+    <thead>
+      <tr>
+        <th>User ID</th>
+        <th>User First Name</th>
+        <th>User Last Name</th>
+        <th>Email Address</th>
+        <th>Type of Purchasing</th>
+        <th> </th>
+        <th> </th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr *ngFor="let user of vm.users">
+        <td>{{user._id}}</td>
+        <td>{{user.firstName}}</td>
+        <td>{{user.username}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.purpose}}</td>
+        <td>
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-info" title="View User" [routerLink]="['/auth/userview', user._id]">
+              <fa-icon [icon]="faSearch">
+              </fa-icon>
+            </button>
+            <button type="button" class="btn btn-warning" title="Edite User"
+              [routerLink]="['/auth/useredit', user._id]">
+              <fa-icon [icon]="faEdit"></fa-icon>
+            </button>
+            <button type="button" class="btn btn-danger" title="Delete User" (click)="deleteUser(user._id)">
+              <fa-icon [icon]="faTrash"></fa-icon>
+            </button>
+          </div>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+</div>

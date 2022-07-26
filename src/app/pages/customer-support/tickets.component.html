@@ -1,0 +1,50 @@
+<div class="product-list" *ngIf="vm$|async as vm">
+  <h3 class="mt-4 mb-4">Client Request List</h3>
+
+  <div class="row" *ngIf="vm.tickets &&  vm.tickets.length < 1; else showTableBlock">
+    <div class="col-6 offset-3 text-center">
+      <div class="empty-cart-list-container">
+        <div class="empty-cart-list-icon">
+          <fa-icon [icon]="faBoxOpen"></fa-icon>
+        </div>
+        <h5>No Data to show</h5>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #showTableBlock>
+    <table class="table table-hover text-center" *ngIf="vm.tickets">
+      <thead>
+        <tr>
+          <th>Ticket ID</th>
+          <th>Date</th>
+          <th>Client Name</th>
+          <th>Ticket Status</th>
+          <th> </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ticket of vm.tickets">
+          <td>{{ticket._id}}</td>
+          <td>{{ticket.createdAt}}</td>
+          <td>{{ticket.name}}</td>
+          <td *ngIf="ticket.status==='New'" class="text-primary">New</td>
+          <td *ngIf="ticket.status==='On hold'" class="text-danger">On hold</td>
+          <td *ngIf="ticket.status==='Closed'" class="text-info">Closed</td>
+          <td>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-info" title="View Ticket" [routerLink]="['/ticket', ticket._id]">
+                <fa-icon [icon]="faSearch"></fa-icon>
+              </button>
+            </div>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-danger" title="Delete Ticket" (click)="deleteTicket(ticket._id)">
+                <fa-icon [icon]="faTrash"></fa-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-template>
+</div>

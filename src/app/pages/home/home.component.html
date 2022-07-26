@@ -1,0 +1,57 @@
+<div class="row">
+  <div class="col-md-5">
+    <div id="container">
+      <p>Welcome to my</p>
+      <p id="text-wrapper">
+        <span id="rotating-text">
+          <span class="blue-text">ANGULAR</span>
+          <span class="orange-text">NGRX</span>
+          <span class="red-text">MongoDB</span>
+        </span>
+      </p>
+      <p>Application!</p>
+    </div>
+  </div>
+
+  <div class="col-md-5 my-3">
+    <h4 class="mt-5">
+      This is an Angular-NGRX based Application.</h4>
+    <h5>
+      In building of the project I am using "Oopcoders.com" tutorial materials, but I have created completely new
+      backend (using Node express, MongoDB, seeder etc. instead of a fake json-server), Shopping Cart and Place Order
+      procedure. Furthermore I
+      have added some
+      features, for example
+      Register, Ticket, User and User Profile Components, Premium and Franchise Memberships, form validation, responsive
+      navbar etc. <br />
+      The project is not completed yet. Currently I am working on Manager Area (more complex than Admin area), which
+      will
+      allow, for
+      example, to update customer or order status, to validate test completion, to generate coupon etc.
+    </h5>
+
+    <h5 class=" my-3">
+      You can check out the project functionality using sample users credentials:<br>
+      - admin@web.de, password: 123456<br>
+      - klava@web.de, password: 123456<br>
+      Also you can register your own user.
+    </h5>
+
+    <div class="row my-5">
+      <div class="col-3 link">
+        <fa-icon [icon]="faLink"></fa-icon> <a href="https://github.com/MarinaAndersen1371/angular-ngrx-ecommerce"
+          target="_blank">
+          Github</a>
+      </div>
+      <div class="col-3 link">
+        <fa-icon [icon]="faLink"></fa-icon> <a [routerLink]="['/shopping/products']"> Live Demo</a>
+      </div>
+      <div class="col-3 link">
+        <fa-icon [icon]="faLink"></fa-icon> <a href="https://oopcoders.com/" target="_blank"> Source</a>
+      </div>
+      <div class="col-3"></div>
+    </div>
+
+    <div class="col-md-2"></div>
+  </div>
+</div>

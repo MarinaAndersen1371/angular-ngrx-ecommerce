@@ -1,0 +1,86 @@
+<div *ngIf="vm$ | async as vm">
+  <header class="header">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" [routerLink]="['home']">MarWeb Trade</a>
+        <div class="togglebutton">
+          <button class="btn btn-lg btn-outline-info" (click)="open(content)"> <span
+              class="navbar-toggler-icon"></span></button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarColor01">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['/shopping/products']">
+                <fa-icon [icon]="faShoppingCart"></fa-icon> Go Shopping
+              </a>
+            </li>
+            <div class="btn-group" dropdown *ngIf="vm.isAdmin">
+              <button id="button-basic" dropdownToggle type="button" class="btn btn-danger dropdown-toggle"
+                aria-controls="dropdown-basic">
+                Admin <span class="caret"></span>
+              </button>
+              <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/shopping/product-list']">Products</a></li>
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/auth/userlist']">Users</a></li>
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/ticketlist']">Tickets</a></li>
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/buy/orderlist']">Orders</a></li>
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/buy/deliverylist']">Delivery</a></li>
+              </ul>
+            </div>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <ng-template #content let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title"><a [routerLink]="['/shopping/products']"
+            (click)="d('Cross click')">
+            <fa-icon [icon]="faShoppingCart"></fa-icon> Go Shopping
+          </a></h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+      </div>
+      <div class="modal-body">
+        <span *ngIf="vm.isAdmin">
+          <fa-icon [icon]="faUserShield" class="text-danger"></fa-icon> Admin Lists
+          <ul>
+            <li><a [routerLink]="['/shopping/product-list']" (click)="d('Cross click')">Products</a></li>
+            <li><a [routerLink]="['/auth/userlist']" (click)="d('Cross click')">Users</a></li>
+            <li><a [routerLink]="['/ticketlist']" (click)="d('Cross click')">Tickets</a></li>
+            <li><a [routerLink]="['/buy/orderlist']" (click)="d('Cross click')">Orders</a></li>
+            <li><a [routerLink]="['/buy/deliverylist']" (click)="d('Cross click')">Delivery</a></li>
+          </ul>
+        </span>
+
+        <span *ngIf="vm.isLoggedIn">
+          <fa-icon [icon]="faUser" class="text-info"></fa-icon> {{vm.firstName}}<ul>
+            <li><a [routerLink]="['/auth/usercart', vm._id]" (click)="d('Cross click')">
+                My Cart
+              </a></li>
+            <li><a [routerLink]="['/auth/userprofile', vm._id]" (click)="d('Cross click')">
+                My Profile
+              </a></li>
+            <li><a [routerLink]="['/buy/myorders']" (click)="d('Cross click')">
+                My Orders
+              </a></li>
+            <li> <a (click)="logout()">
+                <fa-icon [icon]="faSignOutAlt"></fa-icon> Logout
+              </a></li>
+          </ul>
+        </span>
+        <span *ngIf="!vm.isLoggedIn">
+          <ul>
+            <li><a [routerLink]="['/auth/register']" (click)="d('Cross click')">
+                <fa-icon [icon]=" faUserPlus"></fa-icon>
+                Register
+              </a></li>
+            <li><a [routerLink]="['/auth/login']" (click)="d('Cross click')">
+                <fa-icon [icon]=" faSignInAlt"></fa-icon>
+                Sign In
+              </a></li>
+          </ul>
+        </span>
+      </div>
+    </ng-template>
+  </header>
+</div>

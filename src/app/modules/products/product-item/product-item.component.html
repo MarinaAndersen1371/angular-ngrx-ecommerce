@@ -1,0 +1,45 @@
+<div class="row justify-content-center">
+  <div class="col-8 mt-4" *ngIf="vm$ | async as vm">
+    <h4>Product Detail</h4>
+    <div class="row mt-4">
+      <div class="col-md-5 col-lg-7">
+
+        <img class="card-img-top" src="{{vm.product.imageUrl}}" alt="Card image cap">
+        <div class=" mt-4">
+          <div>
+            <p>Price: {{vm.product.price?.toLocaleString('de-DE', {style: 'currency', currency: 'EUR'}) || ''}}</p>
+          </div>
+          <div>
+            <p>
+              In Stock: {{vm.product.quantity}}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-7 col-lg-5">
+        <div class="card-body">
+          <h5 class="card-title">{{vm.product.name}}</h5>
+          <p class="card-text">{{vm.product.description}}
+          </p>
+        </div>
+        <div class="text-center">
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" class="btn btn-warning" [routerLink]="['/shopping/product-edit', vm.product._id]">Edit
+              <fa-icon [icon]="faEdit"></fa-icon>
+            </button>
+            <button type="button" class="btn btn-danger" (click)="deleteProduct(vm.product._id)">Remove <fa-icon
+                [icon]="faTrash"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-4">
+      <button class="btn btn-secondary" [routerLink]="['/shopping/product-list']" routerLinkActive="router-link-active">
+        <fa-icon [icon]="faArrowLeft"></fa-icon>
+        Back To List
+      </button>
+    </div>
+  </div>
+
+</div>

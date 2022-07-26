@@ -1,0 +1,36 @@
+<div class="row" *ngIf="vm$ | async as vm">
+  <div *ngIf="vmUser$ | async as vmUser">
+    <h3 class="text-center my-5"><strong>User Details</strong></h3>
+    <div class="row" *ngIf="vmUser.isAdmin">
+      <div class="col-3">
+        <fa-icon [icon]="faUserTie" class="profile-icon-male text-info" *ngIf="vm.user.gender === 'Male'"></fa-icon>
+        <fa-icon [icon]="faUser" class="profile-icon-female text-warning" *ngIf="vm.user.gender === 'Female'">
+        </fa-icon>
+      </div>
+      <div class="col-6">
+        <div class="card border-info mb-3">
+          <div class="card-header">
+            <h5><strong>First Name: </strong> {{vm.user.firstName}}</h5>
+            <h5><strong>Last Name: </strong> {{vm.user.username}}</h5>
+          </div>
+          <div class="card-body">
+            <p><strong>Email Address: </strong> {{vm.user.email}}</p>
+            <p><strong>Phone Number: </strong> {{vm.user.phone}}</p>
+            <p><strong>Date of Birth: </strong> {{vm.user.birthday}}</p>
+            <p><strong>Type of Purchasing: </strong> {{vm.user.purpose}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="!vmUser.isAdmin">
+      <div class="text-center mt-5">
+        <h5>You are not authorized for this Page</h5>
+        <p class="lead">
+          <a class="btn btn-secondary btn-lg" [routerLink]="['/shopping/products']" role="button">
+            <fa-icon [icon]="faHome"></fa-icon> Go Back
+          </a>
+      </div>
+    </div>
+  </div>
+</div>

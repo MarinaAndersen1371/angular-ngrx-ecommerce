@@ -1,0 +1,40 @@
+<div class="row justify-content-center">
+  <div class="col-8 mt-4">
+    <h4><strong>Add Product</strong></h4>
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+      <div class="form-group">
+        <label for="productName">Product Name</label>
+        <input type="text" ngModel required name="name" class="form-control" id="productName" placeholder="Name">
+      </div>
+      <div class="mb-3 form-group">
+        <label for="productDescription">Description</label>
+        <textarea class="form-control" ngModel name="description" class="form-control" id="productDescription"
+          placeholder="Description"></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="productPrice">Price</label>
+          <input type="text" (keypress)="keyPressNumbersWithDecimal($event)" name="price" ngModel required
+            class="form-control" id="productPrice">
+        </div>
+        <div class="form-group col-md-6">
+          <label for="productQuantity">Quantity</label>
+          <input type="text" (keypress)="keyPressNumbers($event)" required ngModel class="form-control" name="quantity"
+            id="productQuantity">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="productImageUrl">Image Url</label>
+        <input type="text" name="imageUrl" ngModel required class="form-control" id="productImageUrl"
+          placeholder="Example: assets/images/sample.jpg">
+      </div>
+      <button class="btn btn-primary my-3" [routerLink]="['/shopping/product-list']">
+        <fa-icon [icon]="faHome"></fa-icon> Back To List
+      </button>
+      <button class="btn btn-success my-3" type="submit" [disabled]="f.invalid">Add Product <fa-icon
+          [icon]="faCartPlus">
+        </fa-icon></button>
+    </form>
+
+  </div>
+</div>

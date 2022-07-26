@@ -1,0 +1,82 @@
+<div *ngIf="vmUser$ | async as vmUser">
+  <div class="row justify-content-center" *ngIf="vmUser.isAdmin">
+    <div class="col-8 mt-4">
+      <h4>Edit User</h4>
+      <form #f="ngForm" (ngSubmit)="onSubmit()">
+        <div class="form-group my-3">
+          <label>First Name:</label>
+          <input type="text" name="firstName" [(ngModel)]="model.firstName" required id="firstName"
+            class="form-control">
+        </div>
+
+        <div class="form-group my-3">
+          <label>Last Name:</label>
+          <input type="text" name="username" [(ngModel)]="model.username" required id="username"
+            class="form-control form-control-lg">
+        </div>
+
+        <div class="form-group my-3">
+          <label>Email Address:</label>
+          <input type="email" name="email" [(ngModel)]="model.email" required id="email" class="form-control">
+        </div>
+
+        <div class="form-group my-3">
+          <label>Phone Number:</label>
+          <input type="text" name="phone" [(ngModel)]="model.phone" required id="phone" class="form-control">
+        </div>
+
+        <div class="form-group my-3">
+          <label>Type of Purchasing:</label>
+          <select name="purpose" id="purpose" [(ngModel)]="model.purpose" class="form-control">
+            <option value="Other">Other</option>
+            <option value="Private Customer">Private Customer</option>
+            <option value="Wholesale Business">Wholesale Business</option>
+            <option value="Franchise Member">Franchise Member</option>
+          </select>
+        </div>
+
+        <div class="form-group my-3">
+          <div class="row">
+            <div class="col-3"> <label>Date of Birth:</label></div>
+            <div class="col-5">
+              <input type="date" name="birthday" [(ngModel)]="model.birthday" required id="birthday"
+                class="form-control">
+            </div>
+            <div class="col-3"></div>
+          </div>
+        </div>
+
+        <div class="form-group my-3">
+          <div class="row ">
+            <div class="col-3"> <label>Gender:</label></div>
+            <div class="col-2">
+              <input type="radio" name="gender" [(ngModel)]="model.gender" required value="Male"> Male
+            </div>
+            <div class="col-4"><input type="radio" name="gender" [(ngModel)]="model.gender" required value="Female">
+              Female</div>
+            <div class="col-3"></div>
+          </div>
+        </div>
+        <button class="btn btn-warning m-1" [routerLink]="['/auth/userlist']">
+          <fa-icon [icon]="faArrowLeft" type="button"></fa-icon> Back To
+          List
+        </button>
+        <button class="btn btn-secondary m-1" type="submit">Edit User
+          <fa-icon [icon]="faEdit">
+          </fa-icon>
+        </button>
+      </form>
+    </div>
+  </div>
+
+
+  <div class="row" *ngIf="!vmUser.isAdmin">
+    <div class="text-center mt-5">
+      <h5>You are not authorized for this Page</h5>
+      <p class="lead">
+        <a class="btn btn-secondary btn-lg" [routerLink]="['/shopping/products']" role="button">
+          <fa-icon [icon]="faArrowLeft"></fa-icon> Go Back
+        </a>
+    </div>
+  </div>
+</div>

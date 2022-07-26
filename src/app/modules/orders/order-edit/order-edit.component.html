@@ -1,0 +1,74 @@
+<div class="cart-list" *ngIf="vm$ | async as vm">
+  <div *ngIf="vmUser$ | async as vmUser">
+    <p class=" my-3">
+      <a class="btn btn-secondary btn-lg" [routerLink]="['/buy/orderlist']" role="button">
+        <fa-icon [icon]="faArrowLeft"></fa-icon>
+      </a>
+    <div class="row my-4">
+      <div class="col-md-6">
+        <h3>Update Order Status</h3>
+      </div>
+      <div class="col-md-6">
+        <h5>Order: {{vm.order && vm.order._id}}</h5>
+        <h5>placed on: {{vm.order && vm.order.createdAt | date}}</h5>
+        <h5>Customer Name: {{vm.order && vm.order.user && vm.order.user.firstName}} {{vm.order && vm.order.user &&
+          vm.order.user.username}}</h5>
+      </div>
+    </div>
+
+
+    <div class="row my-5">
+      <div class="col-md-6">
+        <h5>Invoice Status:</h5>
+        <div class="card my-3">
+          <div *ngIf="vm.order && vm.order.isPaid" class="card-header  border-success">Order has been paid on
+            {{vm.order.paidAt | date}}</div>
+          <div *ngIf="vm.order && !vm.order.isPaid" class="card-header  border-danger">Order is not paid</div>
+        </div>
+        <div class="card my-3">
+          <div *ngIf="vm.order && vm.order.invoiceSent" class="card-header  border-success">Invoice has been sent on
+            {{vm.order.invoiceAt | date}}</div>
+          <div *ngIf="vm.order && !vm.order.invoiceSent" class="card-header  border-danger">Invoice is not sent</div>
+          <button type="button" class="btn btn-secondary col-12 my-3" (click)="sendInvoice()"
+            [disabled]="vm.order && (!vm.order.isPaid || vm.order.invoiceSent)">
+            Mark Invoice as sent
+          </button>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <h5>Delivery Status:</h5>
+        <div class="card my-3">
+          <div *ngIf="vm.order && vm.order.isSent" class="card-header  border-success">Order has been dispatched on
+            {{vm.order.sentAt | date}}</div>
+          <div *ngIf="vm.order && !vm.order.isSent" class="card-header  border-danger">Order is not dispatched </div>
+          <button type="button" class="btn btn-secondary col-12 my-3" (click)="sendOrder()"
+            [disabled]="vm.order && (!vm.order.isPaid || vm.order.isSent)">
+            Mark Order as sent
+          </button>
+
+          <div *ngIf="vm.order && vm.order.isDelivered" class="card-header  border-success">Order has been delivered on
+            {{vm.order.deliveredAt | date}}</div>
+          <div *ngIf="vm.order && !vm.order.isDelivered" class="card-header  border-danger">Order is not delivered
+          </div>
+          <button type="button" class="btn btn-secondary col-12 my-3" (click)="deliverOrder()"
+            [disabled]="vm.order && (vm.order.isDelivered || !vm.order.isSent)">
+            Mark Order as delivered
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div *ngIf="!vmUser.isAdmin">
+      <div class="text-center mt-5">
+        <h5>You are not authorized for this Page</h5>
+        <p class="lead">
+          <a class="btn btn-secondary btn-lg" [routerLink]="['/buy/orderlist']" role="button">
+            <fa-icon [icon]="faArrowLeft"></fa-icon> Go Back
+          </a>
+      </div>
+    </div>
+  </div>
+</div>
