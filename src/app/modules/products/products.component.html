@@ -1,0 +1,64 @@
+<div class="row justify-content-center mb-5" *ngIf="vm$ |async as vm">
+  <div *ngIf="user$ | async as user">
+    <div class="col-12 mt-4">
+      <div class="row" *ngIf="page===1">
+        <div class="col-md-8"></div>
+        <div class="col-md-2">
+          <fa-icon [icon]="faSearch"></fa-icon><strong> Search product by name:</strong>
+        </div>
+        <div class="col-md-2">
+          <form>
+            <input class="form-control ml-2" type="text" name="searchTerm" [(ngModel)]="searchTerm"
+              (input)="search($event.target.value)" />
+          </form>
+        </div>
+
+        <ngb-carousel *ngIf="vm.topProducts && !searchTerm" class="my-3">
+          <ng-template ngbSlide *ngFor="let topProduct of vm.topProducts">
+            <div class="topProduct">
+              <a [routerLink]="['/shopping/product-view', topProduct._id]" title="View Product Details">
+                <img src="{{topProduct.imageUrl}}" alt="Product Image">
+              </a>
+            </div>
+            <div class="carousel-caption">
+            </div>
+          </ng-template>
+        </ngb-carousel>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-4 col-md-6 mt-3"
+          *ngFor="let product of vm.products | listFilter: searchTerm | slice: (page-1) * pageSize : page * pageSize; index as i">
+          <div class="card">
+            <img src="{{product.imageUrl}}" class="card-img-top" alt="Product Image">
+            <div class="card-body">
+              <h6 class="card-title"><strong>{{product.name}}</strong></h6>
+              <p class="card-text"><strong>Price : {{product.price | currency: 'EUR'}}</strong>
+              </p>
+              <app-rating value="{{product.rating}}" text="{{product.numReviews}} Review's"></app-rating>
+            </div>
+            <div class="text-center mb-1">
+              <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-info" [routerLink]="['/shopping/product-view', product._id]"
+                  title="View Product Details">
+                  <fa-icon [icon]="faSearch"></fa-icon> View
+                </button>
+
+                <button *ngIf="user.isLoggedIn" type="button" class="btn btn-success"
+                  [routerLink]="['/auth/usercart', user._id]" title="View Cart">
+                  <fa-icon [icon]="faCartPlus"></fa-icon> Cart
+                </button>
+                <button *ngIf="!user.isLoggedIn" type="button" class="btn btn-success" [routerLink]="['/auth/login']"
+                  title="View Cart">
+                  <fa-icon [icon]="faCartPlus"></fa-icon> Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ngb-pagination *ngIf="!searchTerm && vm.products.length > 6 " [collectionSize]="vm.products.length" [(page)]="page"
+    [pageSize]="pageSize" class="d-flex justify-content-center my-4"></ngb-pagination>
+</div>

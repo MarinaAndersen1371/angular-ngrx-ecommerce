@@ -1,0 +1,86 @@
+<div *ngIf="vm$ | async as vm">
+  <h3 class="my-4">Product List</h3>
+  <table class="table table-hover text-center">
+    <thead>
+      <tr>
+        <th>Product Name</th>
+        <th>Brand</th>
+        <th>Category</th>
+        <th>Purchase Price</th>
+        <th>Standard Price</th>
+        <th>Special Offer (-5%)</th>
+        <th>Warranty (2%)</th>
+        <th>Device Protection</th>
+        <th>Count in Stock</th>
+        <th>Modified On</th>
+        <th>Modified By</th>
+        <th>
+          <div>
+            <button type="button" title="Add new product" class="btn btn-success"
+              [routerLink]="['/shopping/manager/product-add']">Add New Product
+              <fa-icon [icon]="faPlus"></fa-icon>
+            </button>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of vm.products | slice: (page-1) * pageSize : page * pageSize">
+        <th scope="row">{{product.name}}</th>
+        <td>{{product.brand}}</td>
+        <td>{{product.category}}</td>
+        <td>{{product.pricePurchase | currency: 'EUR'}}</td>
+        <td>{{product.price | currency: 'EUR'}}</td>
+        <td>{{product.price - product.price*0.05 | currency: 'EUR'}}</td>
+        <td>{{product.price * 0.02 | currency: 'EUR'}}</td>
+        <td *ngIf="product.extra" class="text-success">
+          <fa-icon [icon]="faCheck" class="text-success"></fa-icon>
+        </td>
+        <td *ngIf="!product.extra" class="text-danger">
+          <fa-icon [icon]="faTimes" class="text-danger"></fa-icon>
+        </td>
+        <td *ngIf="product.quantity > 0" class="text-success">{{product.quantity}}</td>
+        <td *ngIf="product.quantity === 0" class="text-danger">0</td>
+        <td>{{product.lastModified | date:'medium'}}</td>
+        <td>{{product.modifiedBy }}</td>
+        <td>
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-info" title="View Product"
+              [routerLink]="['/shopping/manager/product-item', product._id]">
+              <fa-icon [icon]="faSearch">
+              </fa-icon>
+            </button>
+            <button type="button" class="btn btn-warning" title="Edit Product"
+              [routerLink]="['/shopping/manager/product-edit', product._id]">
+              <fa-icon [icon]="faEdit"></fa-icon>
+            </button>
+            <button type="button" class="btn btn-danger" title="Delete Product" (click)="deleteProduct(product._id)">
+              <fa-icon [icon]="faTrash"></fa-icon>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <ngb-pagination [collectionSize]="vm.products.length" [(page)]="page" [pageSize]="pageSize"
+    class="d-flex justify-content-center"></ngb-pagination>
+
+  <table class="table table-hover text-center my-5" *ngIf="vm.products && vm.statistics">
+    <thead>
+      <tr>
+        <th scope="col">Products Quantity</th>
+        <th scope="col">Products With Device Protection</th>
+        <th scope="col">Device Protection Total Quantity</th>
+        <th scope="col">Total Items In Stock</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{vm.products.length}} </td>
+        <td>{{vm.statistics.qtyExtra}} </td>
+        <td>{{vm.statistics.qtyExtraStock}} </td>
+        <td>{{vm.statistics.qtyStock}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

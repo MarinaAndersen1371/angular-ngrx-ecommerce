@@ -1,0 +1,69 @@
+<div *ngIf="vm$ | async as vm">
+  <h3 class="my-4">Extra Device Protection Card List</h3>
+  <div class="row" *ngIf="vm.statistics && +vm.statistics.qtyExtra < 1; else showTableBlock">
+    <div class="col-6 offset-3 text-center">
+      <div class="empty-cart-list-icon">
+        <fa-icon [icon]="faBoxOpen"></fa-icon>
+      </div>
+      <h5>No Data to show</h5>
+    </div>
+  </div>
+
+  <ng-template #showTableBlock>
+    <table *ngIf="vm.orders" class="table table-hover text-center my-5">
+      <thead>
+        <tr>
+          <th scope="col">Order ID</th>
+          <th scope="col">Date</th>
+          <th scope="col">Customer Name</th>
+          <th scope="col">Total Price</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of vm.orders">
+          <td *ngIf="order.extraPrice > 0">{{order._id}} </td>
+          <td *ngIf="order.extraPrice > 0">{{order.createdAt | date:'medium'}}</td>
+          <td *ngIf="order.extraPrice > 0">{{order.user.firstName}} {{order.user.username}}</td>
+          <td *ngIf="order.extraPrice > 0 && order.isPaid" class="text-primary">{{order.extraPrice | currency: 'EUR'}}
+          </td>
+          <td *ngIf="order.extraPrice > 0 && !order.isPaid">{{order.extraPrice | currency: 'EUR'}}</td>
+          <td *ngIf="order.extraPrice > 0 && !order.isExtra"><span class="text-warning"> Not active</span>
+          </td>
+          <td *ngIf="order.extraPrice > 0 && order.isExtra"><span class="text-success">Active from
+              {{order.deliveredAt |
+              date}}</span>
+          </td>
+          <td *ngIf="order.extraPrice > 0">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-info" title="View Details"
+                [routerLink]="['/buy/admin/device', order._id]">
+                <fa-icon [icon]="faSearch">
+                </fa-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="table table-hover text-center my-5" *ngIf="vm.orders && vm.statistics">
+      <thead>
+        <tr>
+          <th scope="col">Total Cards/Qty</th>
+          <th scope="col">Total Cards Price/Amount</th>
+          <th scope="col">Status Active/Qty</th>
+          <th scope="col">Status Not Active/Qty</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{vm.statistics.qtyExtra}} </td>
+          <td>{{vm.statistics.totalExtraPrice | currency: 'EUR'}} </td>
+          <td>{{vm.statistics.qtyExtraActive}} </td>
+          <td>{{vm.statistics.qtyExtraNotActive}} </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-template>
+</div>

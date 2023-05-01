@@ -1,0 +1,14 @@
+.profile-icon-male,
+.profile-icon-female {
+  font-size: 150px;
+}
+.photo {
+  margin-top: 6rem;
+}
+
+@media (max-width: 995px) {
+  .profile-icon-male,
+  .profile-icon-female {
+    display: none !important;
+  }
+}

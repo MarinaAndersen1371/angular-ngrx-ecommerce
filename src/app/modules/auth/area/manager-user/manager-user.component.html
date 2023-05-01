@@ -1,0 +1,91 @@
+<div class="row" *ngIf="vm$ | async as vm">
+  <div class="row" *ngIf="vm.user">
+    <div class="col-2 photo">
+      <fa-icon [icon]="faUserTie" class="profile-icon-male text-info mx-1" *ngIf="vm.user.gender === 'Male'">
+      </fa-icon>
+      <fa-icon [icon]="faUser" class="profile-icon-female text-warning mx-1 " *ngIf="vm.user.gender === 'Female'">
+      </fa-icon>
+    </div>
+
+    <div class="col-5 my-5">
+      <h3 class="text-center"><strong>User Details:</strong></h3>
+      <div class="card border-info my-3">
+        <div class="card-header">
+          <h5><strong>First Name: </strong> {{vm.user.firstName}}</h5>
+          <h5><strong>Last Name: </strong> {{vm.user.username}}</h5>
+        </div>
+        <div class="card-body">
+          <p><strong>Email Address: </strong> {{vm.user.email}}</p>
+          <p><strong>Phone Number: </strong> {{vm.user.phone}}</p>
+          <p><strong>Date of Birth: </strong> {{vm.user.birthday}}</p>
+          <p><strong>Type of Purchasing: </strong> {{vm.user.purpose}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-4 my-5">
+      <h3 class="mb-3 text-center">
+        <strong> Account Status:</strong>
+      </h3>
+      <div class="card border-info my-2">
+        <div class="card-header">
+          <h6><strong>Last Login: </strong> {{vm.user.lastLogin |
+            date:'medium'}}</h6>
+        </div>
+      </div>
+      <div class="card border-info my-2">
+        <div class="card-header">
+          <h6><strong>Modified On: </strong>{{vm.user.lastModified |
+            date:'medium'}}</h6>
+        </div>
+      </div>
+      <div class="card border-info my-2">
+        <div class="card-header">
+          <h6><strong>Modified By: </strong> {{vm.user.modifiedBy }}</h6>
+        </div>
+      </div>
+      <div class="card border-info my-2">
+        <div class="card-header">
+          <h6><strong>Premium Member: </strong> <span *ngIf="!vm.user.isPrime">Not active</span> <span
+              *ngIf="vm.user.isPrime" class="text-success">Active </span>
+          </h6>
+          <h6 *ngIf="vm.user.isPrime" class="text-success">from {{vm.user.primeFrom |
+            date}}</h6>
+        </div>
+        <div class="card-body" *ngIf="vm.user.coupon && vm.user.coupon.trim() !== ''">
+          <h6><strong>Loyalty Points Voucher (€10):</strong> {{vm.user.coupon}}</h6>
+        </div>
+      </div>
+      <div class="card border-info my-2">
+        <div class="card-header">
+          <h6><strong>Franchise Association Member: </strong> <span *ngIf="!vm.user.isFranchise">Not
+              active</span> <span *ngIf="vm.user.isFranchise" class="text-success">Active</span></h6>
+          <h6 *ngIf="vm.user.isFranchise" class="text-success"> from {{vm.user.franchiseFrom |
+            date}}</h6>
+        </div>
+        <div class="card-body border-info" *ngIf="vm.user.testPaid">
+          <h6>Training is paid</h6>
+        </div>
+        <div class="card-body border-info" *ngIf="vm.user.testScore > 0 && vm.user.testScore < 80">
+          <h6 class="text-danger">Test has been failed with {{vm.user.testScore}} %</h6>
+        </div>
+        <div class="card-body border-info" *ngIf="vm.user.testScore > 79">
+          <h6 class="text-success">Test has been completed with {{vm.user.testScore}} %</h6>
+        </div>
+        <div class="card-body border-info" *ngIf="vm.user.testScore > 0 && vm.user.testScore < 80">
+          <h6>Test answers: 1.{{vm.user.test.test1}}, 2.{{vm.user.test.test2}}, 3.{{ vm.user.test.test3}},
+            4.{{vm.user.test.test4}}, 5.{{vm.user.test.test5}} </h6>
+        </div>
+      </div>
+      <button class="btn btn-info m-2" [routerLink]="['/auth/manager/user-list']">
+        <fa-icon [icon]="faArrowLeft" type="button"></fa-icon> Back To
+        List
+      </button>
+      <button class="btn btn-warning" type="button" [routerLink]="['/auth/manager/useredit', vm.user._id]">Update Status
+        <fa-icon [icon]="faArrowRight">
+        </fa-icon>
+      </button>
+    </div>
+    <div class="col-1"></div>
+  </div>
+</div>

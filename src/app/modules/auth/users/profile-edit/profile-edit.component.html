@@ -1,0 +1,89 @@
+<div class="row justify-content-center">
+  <div class="col-8 mt-4">
+    <h4>Edit Profile</h4>
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+      <div class="form-group my-3">
+        <label>First Name:</label>
+        <input type="text" name="firstName" [(ngModel)]="model.firstName" required id="firstName" class="form-control">
+      </div>
+
+      <div class="form-group my-3">
+        <label>Last Name:</label>
+        <input type="text" name="username" [(ngModel)]="model.username" required id="username"
+          class="form-control form-control-lg">
+      </div>
+
+      <div class="form-group my-3">
+        <label>Email Address:</label>
+        <input type="email" name="email" [(ngModel)]="model.email" required id="email" class="form-control">
+      </div>
+
+      <div class="form-group my-3">
+        <label>Password:</label>
+        <input type="password" name="password" class="form-control form-control-lg" ngModel #password="ngModel"
+          minlength="6" id="password" placeholder="*********">
+        <div *ngIf="password.invalid && (password.dirty || password.touched)">
+          <div *ngIf="password.errors?.['minlength']" class="text-danger">
+            Password must be at least 6 characters long.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group my-3">
+        <label>Confirm Password:</label>
+        <input type="password" name="passwordConfirm" class="form-control form-control-lg" ngModel
+          [pattern]="f.value.password" #passwordConfirm="ngModel" id="passwordConfirm" placeholder="*********">
+        <div *ngIf="passwordConfirm.invalid && (passwordConfirm.dirty || passwordConfirm.touched)">
+          <div class="text-danger" *ngIf="passwordConfirm.errors?.['pattern']">
+            Passwords do not match
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group my-3">
+        <label>Phone Number:</label>
+        <input type="text" name="phone" [(ngModel)]="model.phone" required id="phone" class="form-control">
+      </div>
+
+      <div class="form-group my-3">
+        <label>Type of Purchasing:</label>
+        <select name="purpose" id="purpose" [(ngModel)]="model.purpose" class="form-control form-select">
+          <option value="Other">Other</option>
+          <option value="Private Customer">Private Customer</option>
+          <option value="Wholesale Business">Wholesale Business</option>
+          <option value="Franchise Member">Franchise Member</option>
+        </select>
+      </div>
+
+      <div class="form-group my-3">
+        <div class="row">
+          <div class="col-3"> <label>Date of Birth:</label></div>
+          <div class="col-5">
+            <input type="date" name="birthday" [(ngModel)]="model.birthday" required id="birthday" class="form-control">
+          </div>
+          <div class="col-3"></div>
+        </div>
+      </div>
+
+      <div class="form-group my-3">
+        <div class="row ">
+          <div class="col-3"> <label>Gender:</label></div>
+          <div class="col-2">
+            <input type="radio" name="gender" [(ngModel)]="model.gender" required value="Male"> Male
+          </div>
+          <div class="col-4"><input type="radio" name="gender" [(ngModel)]="model.gender" required value="Female">
+            Female</div>
+          <div class="col-3"></div>
+        </div>
+      </div>
+      <button class="btn btn-warning m-1" [routerLink]="['/auth/userprofile', userId]">
+        <fa-icon [icon]="faArrowLeft" type="button"></fa-icon> Back To
+        Profile
+      </button>
+      <button class="btn btn-info m-1" type="submit">Update My Profile
+        <fa-icon [icon]="faEdit">
+        </fa-icon>
+      </button>
+    </form>
+  </div>
+</div>

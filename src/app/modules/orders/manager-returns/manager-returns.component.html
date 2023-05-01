@@ -1,0 +1,107 @@
+<div *ngIf="vm$ | async as vm">
+  <h3 class="my-4">Return List</h3>
+  <div class="row" *ngIf="vm.statistics && +vm.statistics.qtyReturn < 1; else showTableBlock">
+    <div class="col-6 offset-3 text-center">
+      <div class="empty-cart-list-icon">
+        <fa-icon [icon]="faBoxOpen"></fa-icon>
+      </div>
+      <h5>No Data to show</h5>
+    </div>
+  </div>
+
+  <ng-template #showTableBlock>
+    <table *ngIf="vm.orders" class="table table-hover text-center my-5">
+      <thead>
+        <tr>
+          <th scope="col">Order/Return ID</th>
+          <th scope="col">Date</th>
+          <th scope="col">Customer Name</th>
+          <th scope="col">Items Subtotal </th>
+          <th scope="col">Shipping Fee </th>
+          <th scope="col">Tax Rate </th>
+          <th scope="col">Return Total</th>
+          <th scope="col">Order Dispatched </th>
+          <th scope="col">Return Received</th>
+          <th scope="col">Refund Paid</th>
+          <th scope="col">Return Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of vm.orders">
+          <td *ngIf="order.returnActive">{{order._id}} </td>
+          <td *ngIf="order.returnActive">{{order.createdAt | date:'medium'}}</td>
+          <td *ngIf="order.returnActive">{{order.user.firstName}} {{order.user.username}}</td>
+          <td *ngIf="order.returnActive">{{order.itemsPriceReturn | currency: 'EUR'}}</td>
+          <td *ngIf="order.returnActive">{{order.shippingPriceReturn | currency:
+            'EUR'}}</td>
+          <td *ngIf="order.returnActive">{{order.taxPriceReturn | currency: 'EUR'}}</td>
+          <td *ngIf="order.returnActive && order.isPaid" class="text-primary"> {{order.totalPriceReturn | currency:
+            'EUR'}} </td>
+          <td *ngIf="order.returnActive && !order.isPaid">{{order.totalPriceReturn | currency: 'EUR'}}</td>
+          <td *ngIf="order.returnActive && order.isSent">{{order.sentAt | date:'medium'}}</td>
+          <td *ngIf="order.returnActive && !order.isSent">
+            <fa-icon [icon]="faTimes"></fa-icon>
+          </td>
+          <td *ngIf="order.returnActive && order.returnReceived">{{order.returnReceivedAt | date:'medium'}}</td>
+          <td *ngIf="order.returnActive && !order.returnReceived">
+            <fa-icon [icon]="faTimes"></fa-icon>
+          </td>
+          <td *ngIf="order.returnActive && order.refund">{{order.refundAt | date:'medium'}}</td>
+          <td *ngIf="order.returnActive && !order.refund">
+            <fa-icon [icon]="faTimes"></fa-icon>
+          </td>
+          <td *ngIf="order.returnActive && order.returnClosed">Closed</td>
+          <td *ngIf="order.returnActive && !order.returnClosed"><span class="text-danger">Active</span></td>
+          <td *ngIf="order.returnActive">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-warning" title="View Return"
+                [routerLink]="['/buy/manager/return', order._id]">
+                <fa-icon [icon]="faSearch">
+                </fa-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="table table-hover text-center my-5" *ngIf="vm.orders && vm.statistics">
+      <thead>
+        <tr>
+          <th scope="col">Orders Qty</th>
+          <th scope="col">Total Amount</th>
+          <th scope="col">Returns Qty</th>
+          <th scope="col">Return Total</th>
+          <th scope="col">Return Not Paid</th>
+          <th scope="col">Return Paid</th>
+          <th scope="col">Return Items Price </th>
+          <th scope="col">Return Tax Rate </th>
+          <th scope="col">Return Shipping Fee </th>
+          <th scope="col">Return Received</th>
+          <th scope="col">Return Active</th>
+          <th scope="col">Return Closed</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{vm.orders.length}} </td>
+          <td>{{+vm.statistics.totalPriceNotPaid + +vm.statistics.totalPricePaid| currency: 'EUR'}}</td>
+          <td>{{vm.statistics.qtyReturn }} </td>
+          <td class="text-danger">{{+vm.statistics.totalReturnNotPaid + +vm.statistics.totalReturnPaid | currency:
+            'EUR'}}</td>
+          <td class="text-danger">{{vm.statistics.totalReturnNotPaid | currency: 'EUR'}}</td>
+          <td class="text-danger">{{vm.statistics.totalReturnPaid | currency: 'EUR'}}</td>
+          <td class="text-danger">{{vm.statistics.totalItemsReturn | currency: 'EUR'}}</td>
+          <td class="text-danger">{{+vm.statistics.totalTaxReturnNotPaid + +vm.statistics.totalTaxReturnPaid | currency:
+            'EUR'}}</td>
+          <td class="text-danger">{{ vm.statistics.totalShippingReturn |
+            currency: 'EUR'}}
+          </td>
+          <td>{{vm.statistics.qtyReturnReceived }}</td>
+          <td>{{vm.statistics.qtyReturnActive }}</td>
+          <td>{{vm.statistics.qtyReturnClosed }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-template>
+</div>

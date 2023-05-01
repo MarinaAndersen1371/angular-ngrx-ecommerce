@@ -1,0 +1,75 @@
+<form #f="ngForm" (ngSubmit)="onSubmit(f)">
+  <h3 class="my-5">Subscriptions & Memberships</h3>
+  <div class="row mt-5">
+    <div class="col-5">
+      <div class="card border-info mb-3">
+        <div class="card-header">
+          <h5 class="my-2"><strong>Premium Member: € 70.00</strong> </h5>
+          <p>Free Prime Shipping (doesn't include Fastest Delivery)</p>
+          <p>Loyalty Points Voucher</p>
+        </div>
+        <div class="card-body">
+          <h5 *ngIf="isPrime" class="text py-4">Your Premium Membership status is active</h5>
+          <div *ngIf="!isPrime">
+            <div class="form-group row my-4">
+              <div class="col-9">
+                <h5>Subscribe for Premium Membership:</h5>
+              </div>
+              <div class="col-3">
+                <select name="prime" id="prime" [(ngModel)]="ngSelectPrime" class="form-control form-select">
+                  <option value="No">No</option>
+                  <option value="Yes">Yes</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-5">
+      <div class="card border-info mb-3">
+        <div class="card-header">
+          <h5><strong>Franchising System Member: € 500.00</strong> </h5>
+          <p>(a one-off joining fee) <br>In order to become a Member of the Franchise Association you need to complete a
+            training.</p>
+        </div>
+        <div class="card-body">
+          <h5 *ngIf="testPaid && isFranchise" class="text py-4">Your Franchise Association Membership status is active
+          </h5>
+          <h5 *ngIf="testPaid && !isFranchise" class="text py-4">Franchise Association Membership Fee is paid</h5>
+          <div *ngIf="!testPaid">
+            <div class="form-group row my-3">
+              <div class="col-9">
+                <h5>Subscribe for Franchise Association Membership:</h5>
+              </div>
+              <div class="col-3">
+                <select name="franchise" id="franchise" [(ngModel)]="ngSelectFranchise"
+                  class="form-control form-select">
+                  <option value="No">No</option>
+                  <option value="Yes">Yes</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-2"></div>
+  </div>
+
+  <div class="row">
+    <div class="col-2"></div>
+    <div class="col-3">
+      <button type="button" class="btn btn-secondary col-12" [routerLink]="['/auth/usercart', _id]"
+        routerLinkActive="router-link-active">
+        <fa-icon [icon]="faArrowLeft"></fa-icon> Go Back to Cart
+      </button>
+    </div>
+    <div class="col-3"><button type="submit" class="btn btn-secondary col-12">
+        Proceed to Checkout <fa-icon [icon]="faArrowRight"></fa-icon>
+      </button>
+    </div>
+    <div class="col-4"></div>
+  </div>
+</form>

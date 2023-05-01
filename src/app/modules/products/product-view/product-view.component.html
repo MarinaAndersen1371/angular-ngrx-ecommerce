@@ -1,0 +1,198 @@
+<div *ngIf="vm$ | async as vm">
+  <div *ngIf="vm.product">
+    <nav ngbNav #nav="ngbNav" class="nav-tabs">
+      <a class="nav-link" [routerLink]="['/shopping/products']">Home</a>
+      <ng-container ngbNavItem>
+        <a ngbNavLink>Product Details</a>
+        <ng-template ngbNavContent>
+          <div class="row justify-content-center">
+            <div class="col-8">
+              <form #f="ngForm">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div>
+                      <h5 *ngIf="vm.product.quantity > 0" class="text-success">
+                        In Stock: {{vm.product.quantity}}
+                      </h5>
+                      <h5 *ngIf="vm.product.quantity < 1" class="text-danger">
+                        Out of Stock
+                      </h5>
+                    </div>
+                    <img class="card-img-top" src="{{ vm.product.imageUrl}}" alt="Card image cap" name="imageUrl"
+                      id="imageUrl">
+                    <div class=" mt-4">
+                      <app-rating value="{{vm.product.rating}}" text="{{vm.product.numReviews}} Review's"></app-rating>
+                      <div class="mt-5">
+                        <p>Description: {{
+                          vm.product.description}}
+                        </p>
+                      </div>
+                      <div>
+                        <p>Brand: {{
+                          vm.product.brand}}
+                        </p>
+                      </div>
+                      <div>
+                        <p>Category: {{
+                          vm.product.category}}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-6 my-4">
+                    <h3><strong>{{vm.product.name}}</strong></h3>
+                    <div class="card-body">
+                      <h5 name="price" id="price">Standard Price: {{
+                        vm.product.price | currency: 'EUR'}}
+                      </h5>
+                      <h5>Special Offer: discount 5%</h5>
+                      <p>(on order more than 2 items of the same Product)</p>
+                      <div class="form-group row my-4">
+                        <div class="col-8">
+                          <label for="qty">
+                            <h5>Quantity:</h5>
+                          </label>
+                        </div>
+                        <div class="col-4">
+                          <input type="number" name="qty" ngModel #qty required id="qty" class="form-control" min="1"
+                            max="{{vm.product.quantity}}">
+                        </div>
+                      </div>
+                      <div class="form-group row my-3">
+                        <div class="col-8">
+                          <h5>Warranty Card:</h5>
+                          <p>(2% of item's price)</p>
+                        </div>
+                        <div class="col-4">
+                          <select name="warranty" id="warranty" [(ngModel)]="ngSelectWarranty"
+                            class="form-control form-select">
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group row my-3">
+                        <div class="col-8">
+                          <label for="gift">
+                            <h5>This will be a gift?</h5>
+                            <p>(gift package / €5.00)</p>
+                          </label>
+                        </div>
+                        <div class="col-4">
+                          <select name="gift" id="gift" [(ngModel)]="ngSelectGift" class="form-control form-select">
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+                          </select>
+                        </div>
+                      </div>
+                      <p *ngIf="vm.product.extra">** Please choose only one option: **</p>
+                      <div class="form-group row" *ngIf="vm.product.extra">
+                        <div class="col">
+                          <label for="extra1">
+                            <strong>1-year Device Protection / €4.00</strong>
+                            <p>This cover protects your product from accident mechanical and electrical breakdowns
+                              damage from the day you receive your product.</p>
+                          </label>
+                        </div>
+                        <div class="col-4">
+                          <select name="extra1" id="extra1" [(ngModel)]="ngSelectExtra1"
+                            class="form-control form-select">
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="form-group row" *ngIf="vm.product.extra">
+                        <div class="col">
+                          <label for="extra2">
+                            <strong>2-year Device Protection / €5.00</strong>
+                            <p>Up to 2 years of coverage against accidental damage from the day you receive your
+                              product.</p>
+                          </label>
+                        </div>
+                        <div class="col-4">
+                          <select name="extra2" id="extra2" [(ngModel)]="ngSelectExtra2"
+                            class="form-control form-select">
+                            <option value="No">No</option>
+                            <option value="Yes">Yes</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <button type="button" class="btn btn-success col-12" title="View Cart"
+                        (click)="addToCart(vm.product, f)"
+                        [disabled]="vm.product.quantity < 1 || f.value.qty < 1 || f.value.qty > vm.product.quantity || (f.value.extra1=== 'Yes' && f.value.extra2=== 'Yes' )">
+                        <fa-icon [icon]="faCartPlus"></fa-icon> Add to Cart
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </ng-template>
+      </ng-container>
+
+      <ng-container ngbNavItem>
+        <a ngbNavLink>Product Reviews</a>
+        <ng-template ngbNavContent>
+          <div class="row justify-content-center my-5">
+            <div class="row">
+              <div class="col-md-5">
+                <div class="card border-info my-3">
+                  <div class="card-header">
+                    <h5 class="text-center"><strong>Product Reviews</strong></h5>
+                  </div>
+                  <div class="card-body border-info" *ngIf="vm.product.reviews && vm.product.reviews.length === 0">
+                    <h6>No Reviews for this Product</h6>
+                  </div>
+                  <div *ngIf="vm.product.reviews && vm.product.reviews.length > 0">
+                    <div class="card-body" *ngFor="let review of vm.product.reviews">
+                      <div class="row">
+                        <div class="col-md-7">
+                          <p> {{review.userName}}</p>
+                          <app-rating value=" {{review.rating}}"></app-rating>
+                        </div>
+                        <div class="col-md-5 mb-2">
+                          <p> {{review.createdAt.substring(0, 10)}}</p>
+                        </div>
+                      </div>
+                      <p>{{review.comment}}</p>
+                      *********************
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-md-5">
+                <h5><strong>Write a Customer Review:</strong></h5>
+                <p>*** Only one Review is allowed</p>
+                <form #fReview="ngForm" (ngSubmit)="createReview(fReview)">
+                  <label for="rating">Rating:</label>
+                  <select name="rating" id="rating" [(ngModel)]="ngSelectRating" class="form-control form-select ">
+                    <option value="Select">Select..</option>
+                    <option value="1">1 - Poor</option>
+                    <option value="2">2 - Fair</option>
+                    <option value="3">3 - Good</option>
+                    <option value="4">4 - Very Good</option>
+                    <option value="5">5 - Excellent</option>
+                  </select>
+                  <label for="comment">Comment:</label>
+                  <textarea class="form-control " id="comment" name="comment" required [(ngModel)]="comment"></textarea>
+                  <button type="submit" class="btn btn-secondary my-3"
+                    [disabled]="fReview.value.rating === 'Select' || !fReview.value.comment || fReview.value.comment && fReview.value.comment.trim() === ''">
+                    Submit Review
+                  </button>
+                </form>
+              </div>
+            </div>
+            <div class="col-md-1"></div>
+          </div>
+        </ng-template>
+      </ng-container>
+    </nav>
+    <div [ngbNavOutlet]="nav" class="mt-2"></div>
+  </div>
+</div>

@@ -1,0 +1,99 @@
+<div *ngIf="vm$ | async as vm">
+  <div *ngIf="vm.order">
+    <div class="row">
+      <div class="col-md-8">
+        <p class="my-3">Order placed on {{vm.order.createdAt | date:'medium'}}</p>
+      </div>
+      <div class="col-md-2">
+        <p>
+          <a class="btn btn-secondary col-md-12 my-2" [routerLink]="['/buy/admin/order',vm.order._id]" role="button">
+            Go to Order <fa-icon [icon]="faArrowRight"></fa-icon>
+          </a>
+        </p>
+      </div>
+      <div class="col-md-2">
+        <p>
+          <a class="btn btn-secondary col-md-12 my-2" [routerLink]="['/buy/admin/invoice', vm.order._id]" role="button">
+            Go to Invoice <fa-icon [icon]="faArrowRight"></fa-icon>
+          </a>
+        </p>
+      </div>
+    </div>
+    <h3 class="mb-5">Delivery Note to Order {{vm.order._id}}</h3>
+
+    <div class="row mb-5">
+      <div class="col-md-5">
+        <div class="card my-4" *ngIf="vm.order.shippingAddress">
+          <div class="card-body">
+            <h5 class="card-title"><strong>Shipping Address</strong></h5>
+            <p> <strong>Name: </strong><span class="name"> {{vm.order.shippingAddress.name}}</span>
+            </p>
+            <p><strong>Address: </strong> {{vm.order.shippingAddress.address}}, {{vm.order.shippingAddress.city}}</p>
+            <span class="address">
+              <p> {{vm.order.shippingAddress.postalCode}}, {{vm.order.shippingAddress.country}}</p>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1"></div>
+      <div class="col-md-5">
+        <div class="card my-4">
+          <div class="card-body">
+            <h5 class="card-title mb-4 pb-4"><strong>Delivery Status</strong></h5>
+            <p> <strong>Type of Shipping: </strong><span *ngIf="vm.order.shippingPrice === 5" class="shipping">
+                Standard </span>
+              <span *ngIf="vm.order.shippingPrice === 10" class="shipping">
+                Fastest
+              </span>
+              <span *ngIf="vm.order.shippingPrice === 0" class="shipping">
+                Free
+              </span>
+            </p>
+            <p><strong>Shipping Fee: </strong> <span class="price">{{vm.order.shippingPrice | currency:
+                'EUR' }} </span> </p>
+          </div>
+        </div>
+        <div *ngIf="!vm.order.isSent" class="card border-danger mb-1">
+          <div class="card-header">Order is not sent yet</div>
+        </div>
+        <div *ngIf="vm.order.isSent && !vm.order.isDelivered" class="card border-info mb-1">
+          <div class="card-header">Order has been dispatched on {{vm.order.sentAt | date:'medium'}}</div>
+        </div>
+        <div *ngIf="vm.order.isDelivered" class="card border-success mb-1">
+          <div class="card-header">Order has been delivered on {{vm.order.deliveredAt | date:'medium'}}</div>
+        </div>
+        <div *ngIf="vm.order.returnReceived" class="card border-success mb-1">
+          <div class="card-header">Return has been received on {{vm.order.returnReceivedAt | date:'medium'}}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <table class="table table-hover text-center">
+          <thead>
+            <tr>
+              <th scope="col">Ordered Item</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Gift Package</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item  of vm.order.orderItems ">
+              <td>{{item.name}}</td>
+              <td>{{item.quantity}}</td>
+              <td *ngIf="item.gift === 5">
+                <fa-icon [icon]="faCheck" class="text-success"></fa-icon>
+              </td>
+              <td *ngIf="item.gift === 0">
+                <fa-icon [icon]="faTimes" class="text-danger"></fa-icon>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-1"></div>
+    </div>
+  </div>
+</div>

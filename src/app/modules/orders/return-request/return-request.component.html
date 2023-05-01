@@ -1,0 +1,56 @@
+<div *ngIf="vm$|async as vm">
+  <div *ngIf="vmUser$ | async as vmUser">
+    <div
+      *ngIf="vm.order && vm.order.user && vm.order.user._id  && vm.order.user._id === vmUser._id; else showMessageBlock">
+      <div class="row">
+        <div class="col-md-10">
+          <p class="my-3">Order placed on {{vm.order.createdAt | date:'medium'}}</p>
+        </div>
+        <div class="col-md-2"><a class="btn btn-secondary col-md-12 my-2" [routerLink]="['/buy/order', vm.order._id]"
+            role="button">
+            Go to Order <fa-icon [icon]="faArrowRight"></fa-icon>
+          </a></div>
+      </div>
+      <h3 class="mb-5">Order Items to return:</h3>
+      <div class="row">
+        <table class="table table-hover text-center">
+          <thead>
+            <tr>
+              <th scope="col"> </th>
+              <th scope="col">Name</th>
+              <th scope="col">Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item  of vm.order.orderItems">
+              <th scope="row"><span class="cart-list-image"><img src="{{item.imageUrl}}"></span></th>
+              <td>{{item.name}}</td>
+              <td>{{item.quantity}}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="row">
+          <div class="col-md-8"></div>
+          <div class="col-md-4">
+            <button type="button" class="btn btn-secondary col-12 my-3" (click)="confirmReturn()">
+              Confirm Return
+            </button>
+          </div>
+        </div>
+        <p>* There is no Refund for Gift Package, Premium or Franchise Subscriptions</p>
+        <p>** There is no Shipping Fee Refund for already dispatched Orders</p>
+      </div>
+    </div>
+
+
+    <ng-template #showMessageBlock>
+      <div class="text-center mt-5">
+        <h5>You are not authorized for this Page</h5>
+        <p>
+          <a class="btn btn-secondary" [routerLink]="['/shopping/products']" role="button"> Go Back </a>
+        </p>
+      </div>
+    </ng-template>
+  </div>
+</div>

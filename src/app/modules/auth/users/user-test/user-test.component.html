@@ -1,0 +1,172 @@
+<div>
+  <button class="btn btn-warning m-2" [routerLink]="['/auth/userprofile', userId]">
+    <fa-icon [icon]="faArrowLeft" type="button"></fa-icon> Back To Profile
+  </button>
+  <h3 class="text-center my-5">
+    <fa-icon [icon]="faEdit" class="text-info mx-2"></fa-icon> Franchise Association Training Test
+  </h3>
+  <h5 class="text-center my-5">Successfully Test Completion requires minimum 4 correct answers (80% Score). </h5>
+
+  <div class="row">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <form #f="ngForm" (ngSubmit)="onSubmit()">
+        <div class="card border-info">
+          <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+            <li [ngbNavItem]="1">
+              <a ngbNavLink>
+                Start Test <fa-icon [icon]="faArrowRight">
+                </fa-icon>
+              </a>
+              <ng-template ngbNavContent>
+                <p class="text-center text-info py-5">Please choose your
+                  answer for each question.</p>
+              </ng-template>
+            </li>
+
+            <li [ngbNavItem]="2">
+              <a ngbNavLink>Question 1 <fa-icon [icon]="faArrowRight">
+                </fa-icon></a>
+              <ng-template ngbNavContent>
+                <div class="form-group">
+                  <p class="p-4"> Question: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                    tempor
+                    incididunt
+                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                    laborisisi ut aliquip ex ea commodo consequat? </p>
+                  <p class="m-4">
+                    A <input type="radio" name="test1" #test1="ngModel" value="A" [(ngModel)]="model.test.test1"
+                      required class="mx-2"> Lorem ipsum dolor sit amet laborisisi ut aliquip ex ea commodo.<br>
+                    B <input type="radio" name="test1" #test1="ngModel" value="B" [(ngModel)]="model.test.test1"
+                      required class="mx-2"> Lorem ipsum dolor sit amet. <br>
+                    C <input type="radio" name="test1" #test1="ngModel" value="C" [(ngModel)]="model.test.test1"
+                      required class="mx-2"> Lorem ipsum dolor sit amet laborisisi ut aliquip ex ea commodo consequat.
+                    <br>
+                    D <input type="radio" name="test1" #test1="ngModel" value="D" [(ngModel)]="model.test.test1"
+                      required class="mx-2"> Lorem ipsum dolor sit amet laborisisi ut aliquip ex ea commodo consequat
+                    laborisisi ut
+                    aliquip.
+                  </p>
+                </div>
+              </ng-template>
+            </li>
+
+            <li [ngbNavItem]="3">
+              <a ngbNavLink>Question 2 <fa-icon [icon]="faArrowRight">
+                </fa-icon></a>
+              <ng-template ngbNavContent>
+                <div class="form-group">
+                  <p class="p-4"> Question: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                    tempor
+                    incididunt
+                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                    laborisisi ut aliquip ex ea commodo consequat? </p>
+                  <p class="m-4">
+                    A <input type="radio" name="test2" #test2="ngModel" value="A" [(ngModel)]="model.test.test2"
+                      required class="mx-2"> Lorem ipsum dolor sit amet laborisisi ut aliquip ex ea commodo.<br>
+                    B <input type="radio" name="test2" #test2="ngModel" value="B" [(ngModel)]="model.test.test2"
+                      required class="mx-2"> Lorem ipsum dolor sit amet. <br>
+                    C <input type="radio" name="test2" #test2="ngModel" value="C" [(ngModel)]="model.test.test2"
+                      required class="mx-2"> Lorem ipsum dolor sit amet laborisisi ut aliquip ex ea commodo consequat.
+                    <br>
+                    D <input type="radio" name="test2" #test2="ngModel" value="D" [(ngModel)]="model.test.test2"
+                      required class="mx-2"> Lorem ipsum dolor sit amet laborisisi ut aliquip ex ea commodo consequat
+                    laborisisi ut
+                    aliquip.
+                  </p>
+                </div>
+              </ng-template>
+            </li>
+
+            <li [ngbNavItem]="4">
+              <a ngbNavLink>Question 3 <fa-icon [icon]="faArrowRight">
+                </fa-icon></a>
+              <ng-template ngbNavContent>
+                <div class="form-group">
+                  <p class="p-4"> Question: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                    tempor
+                    incididunt
+                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                    laborisisi ut aliquip ex ea commodo consequat? </p>
+                  <p class="m-4">
+                    A <input type="radio" name="test3" #test3="ngModel" value="A" [(ngModel)]="model.test.test3"
+                      required class="mx-2"> Lorem ipsum dolor sit amet laborisisi ut aliquip ex ea commodo.<br>
+                    B <input type="radio" name="test3" #test3="ngModel" value="B" [(ngModel)]="model.test.test3"
+                      required class="mx-2"> Lorem ipsum dolor sit amet. <br>
+                    C <input type="radio" name="test3" #test3="ngModel" value="C" [(ngModel)]="model.test.test3"
+                      required class="mx-2"> Lorem ipsum dolor sit amet laborisisi ut aliquip ex ea commodo consequat.
+                    <br>
+                    D <input type="radio" name="test3" #test3="ngModel" value="D" [(ngModel)]="model.test.test3"
+                      required class="mx-2"> Lorem ipsum dolor sit amet laborisisi ut aliquip ex ea commodo consequat
+                    laborisisi ut
+                    aliquip.
+                  </p>
+                </div>
+              </ng-template>
+            </li>
+
+            <li [ngbNavItem]="5">
+              <a ngbNavLink>Question 4 <fa-icon [icon]="faArrowRight">
+                </fa-icon></a>
+              <ng-template ngbNavContent>
+                <div class="form-group">
+                  <p class="p-4"> Question: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                    tempor
+                    incididunt
+                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                    laborisisi ut aliquip ex ea commodo consequat? </p>
+                  <p class="m-4">
+                    A <input type="radio" name="test4" #test4="ngModel" value="A" [(ngModel)]="model.test.test4"
+                      required class="mx-2"> Lorem ipsum dolor sit amet laborisisi ut aliquip ex ea commodo.<br>
+                    B <input type="radio" name="test4" #test4="ngModel" value="B" [(ngModel)]="model.test.test4"
+                      required class="mx-2"> Lorem ipsum dolor sit amet. <br>
+                    C <input type="radio" name="test4" #test4="ngModel" value="C" [(ngModel)]="model.test.test4"
+                      required class="mx-2"> Lorem ipsum dolor sit amet laborisisi ut aliquip ex ea commodo consequat.
+                    <br>
+                    D <input type="radio" name="test4" #test4="ngModel" value="D" [(ngModel)]="model.test.test4"
+                      required class="mx-2"> Lorem ipsum dolor sit amet laborisisi ut aliquip ex ea commodo consequat
+                    laborisisi ut
+                    aliquip.
+                  </p>
+                </div>
+              </ng-template>
+            </li>
+
+            <li [ngbNavItem]="6">
+              <a ngbNavLink>Question 5 </a>
+              <ng-template ngbNavContent>
+                <div class="form-group">
+                  <p class="p-4"> Question: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                    tempor
+                    incididunt
+                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                    laborisisi ut aliquip ex ea commodo consequat? </p>
+                  <p class="m-4">
+                    A <input type="radio" name="test5" #test5="ngModel" value="A" [(ngModel)]="model.test.test5"
+                      required class="mx-2"> Lorem ipsum dolor sit amet laborisisi ut aliquip ex ea commodo.<br>
+                    B <input type="radio" name="test5" #test5="ngModel" value="B" [(ngModel)]="model.test.test5"
+                      required class="mx-2"> Lorem ipsum dolor sit amet. <br>
+                    C <input type="radio" name="test5" #test5="ngModel" value="C" [(ngModel)]="model.test.test5"
+                      required class="mx-2"> Lorem ipsum dolor sit amet laborisisi ut aliquip ex ea commodo consequat.
+                    <br>
+                    D <input type="radio" name="test5" #test5="ngModel" value="D" [(ngModel)]="model.test.test5"
+                      required class="mx-2"> Lorem ipsum dolor sit amet laborisisi ut aliquip ex ea commodo consequat
+                    laborisisi ut
+                    aliquip.
+                  </p>
+                  <button class="btn btn-success" type="submit"
+                    [disabled]="model.test.test1===' ' || model.test.test2===' ' || model.test.test3===' ' || model.test.test4===' ' || model.test.test5===' '">
+                    <fa-icon [icon]="faCheck">
+                    </fa-icon> Submit Test
+                  </button>
+                </div>
+              </ng-template>
+            </li>
+          </ul>
+          <div [ngbNavOutlet]="nav" class="mt-2"></div>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-2"></div>
+  </div>
+</div>

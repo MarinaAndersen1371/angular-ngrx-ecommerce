@@ -1,0 +1,46 @@
+<div *ngIf="vm$ | async as vm">
+  <h3 class="my-4">Product List</h3>
+  <table class="table table-hover text-center">
+    <thead>
+      <tr>
+        <th>Product Name</th>
+        <th>Brand</th>
+        <th>Category</th>
+        <th>Standard Price</th>
+        <th>Special Offer (-5%)</th>
+        <th>Warranty (2%)</th>
+        <th>Device Protection</th>
+        <th>Count in Stock</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of vm.products | slice: (page-1) * pageSize : page * pageSize">
+        <th scope="row">{{product.name}}</th>
+        <td>{{product.brand}}</td>
+        <td>{{product.category}}</td>
+        <td>{{product.price | currency: 'EUR'}}</td>
+        <td>{{product.price - product.price*0.05 | currency: 'EUR'}}</td>
+        <td>{{product.price * 0.02 | currency: 'EUR'}}</td>
+        <td *ngIf="product.extra" class="text-success">
+          <fa-icon [icon]="faCheck" class="text-success"></fa-icon>
+        </td>
+        <td *ngIf="!product.extra" class="text-danger">
+          <fa-icon [icon]="faTimes" class="text-danger"></fa-icon>
+        </td>
+        <td *ngIf="product.quantity > 0" class="text-success">{{product.quantity}}</td>
+        <td *ngIf="product.quantity === 0" class="text-danger">0</td>
+        <td>
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-info" title="View Product"
+              [routerLink]="['/shopping/franchise-product', product._id]">
+              <fa-icon [icon]="faSearch">
+              </fa-icon>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <ngb-pagination [collectionSize]="vm.products.length" [(page)]="page" [pageSize]="pageSize"
+    class="d-flex justify-content-center"></ngb-pagination>
+</div>

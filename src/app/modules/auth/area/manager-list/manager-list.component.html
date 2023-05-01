@@ -1,0 +1,97 @@
+<div *ngIf="vm$ | async as vm">
+  <h3 class="my-4">User List</h3>
+  <table class="table table-hover text-center" *ngIf="vm.users && vm.users.active">
+    <thead>
+      <tr>
+        <th>User ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email Address</th>
+        <th>Type of Purchasing</th>
+        <th>Premium</th>
+        <th>Test Score</th>
+        <th>Franchise</th>
+        <th>Role</th>
+        <th>Created</th>
+        <th>Last Login</th>
+        <th>Modified On</th>
+        <th>Modified By</th>
+        <th> </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of vm.users.active">
+        <td>{{user._id}}</td>
+        <td>{{user.firstName}}</td>
+        <td>{{user.username}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.purpose}}</td>
+        <td *ngIf="user.isPrime"> {{user.primeFrom |
+          date}}</td>
+        <td *ngIf="!user.isPrime">
+          <fa-icon [icon]="faTimes"></fa-icon>
+        </td>
+        <td *ngIf="user.testScore > 79"><span class="text-success">{{user.testScore}}%</span></td>
+        <td *ngIf="user.testScore < 80 && user.testScore > 0"><span class="text-danger">{{user.testScore}}%</span>
+        </td>
+        <td *ngIf="user.testScore === 0">
+          <fa-icon [icon]="faTimes"></fa-icon>
+        </td>
+        <td *ngIf="user.isFranchise"> {{user.franchiseFrom |
+          date}}</td>
+        <td *ngIf="!user.isFranchise ">
+          <fa-icon [icon]="faTimes"></fa-icon>
+        </td>
+        <td *ngIf="user.isadmin">Admin</td>
+        <td *ngIf="user.isManager"> Manager</td>
+        <td *ngIf="!user.isManager && !user.isadmin">
+          <fa-icon [icon]="faTimes"></fa-icon>
+        </td>
+        <td>{{user.createdAt | date:'medium'}}</td>
+        <td>{{user.lastLogin | date:'medium'}}</td>
+        <td>{{user.lastModified | date:'medium'}}</td>
+        <td>{{user.modifiedBy }}</td>
+        <td>
+          <div class="btn-group" role="group">
+            <button type="button" class="btn btn-info" title="View User"
+              [routerLink]="['/auth/manager/user', user._id]">
+              <fa-icon [icon]="faSearch">
+              </fa-icon>
+            </button>
+            <button type="button" class="btn btn-warning" title="Edit User"
+              [routerLink]="['/auth/manager/useredit', user._id]">
+              <fa-icon [icon]="faEdit"></fa-icon>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table class="table table-hover text-center my-5" *ngIf="vm.users && vm.users.active && vm.statistics">
+    <thead>
+      <tr>
+        <th>Total Users</th>
+        <th>Female Users</th>
+        <th>Male Users</th>
+        <th>Private Customer/Other</th>
+        <th>Wholesale Business</th>
+        <th>Frachise Association</th>
+        <th>Premium Membership</th>
+        <th>Frachise Membership</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{vm.users.active.length}}</td>
+        <td>{{vm.statistics.qtyFemale}}</td>
+        <td>{{vm.statistics.qtyMale}}</td>
+        <td>{{vm.statistics.qtyPrivateCustomer}}</td>
+        <td>{{vm.statistics.qtyWholesaleBusiness}}</td>
+        <td>{{vm.statistics.qtyFranchiseMember}}</td>
+        <td>{{vm.statistics.qtyPrime}}</td>
+        <td>{{vm.statistics.qtyFranchise}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

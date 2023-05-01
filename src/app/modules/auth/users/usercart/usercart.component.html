@@ -1,0 +1,75 @@
+<div class="cart-list" *ngIf="vm$ | async as vm">
+  <h3 class="row my-4">Shopping Cart</h3>
+  <div class="row" *ngIf="vm.user && vm.user.cart && vm.user.cart.length < 1; else showTableBlock">
+    <div class="col-6 offset-3 text-center">
+      <div class="empty-cart-list-icon">
+        <fa-icon [icon]="faBoxOpen"></fa-icon>
+      </div>
+      <h5>Hi, {{vm.user.firstName}}. Your Shopping Cart Is Empty</h5>
+      <a class="btn btn-info mb-5" [routerLink]="['/shopping/products']">
+        <fa-icon [icon]="faStoreAlt"></fa-icon>Start Shopping
+      </a>
+    </div>
+  </div>
+
+  <ng-template #showTableBlock>
+    <div class="row">
+      <table class="table table-hover text-center">
+        <thead>
+          <tr>
+            <th scope="col">Image</th>
+            <th scope="col">Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price/Item</th>
+            <th scope="col">Discount/ Item</th>
+            <th scope="col">Warranty/ Item</th>
+            <th scope="col">Protection/ Item</th>
+            <th scope="col">Gift Package</th>
+            <th scope="col">Total/Item</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product  of vm.user.cart ">
+            <th scope="row"><span class="cart-list-image"><img src="{{product.imageUrl}}"></span></th>
+            <td>{{product.name}}</td>
+            <td>{{product.quantity}}</td>
+            <td>{{product.price | currency:
+              'EUR'}}</td>
+            <td *ngIf="product.discount > 0">-{{(+product.price *
+              +product.discount) | currency:
+              'EUR'}}</td>
+            <td *ngIf="product.discount === 0">€0.00</td>
+            <td>{{(product.price * product.warranty) | currency:
+              'EUR'}}</td>
+            <td>{{(product.extra1 + product.extra2) | currency:
+              'EUR'}}</td>
+            <td>{{product.gift | currency:
+              'EUR'}}</td>
+            <td>{{ (product.price * product.quantity -
+              product.price * product.quantity * product.discount +
+              product.price * product.quantity * product.warranty +
+              (product.extra1 + product.extra2) * product.quantity +
+              product.gift) | currency: 'EUR'}}</td>
+            <td> <button type="button" class="btn btn-danger" title="Delete Item" (click)="deleteItem(product)">
+                <fa-icon [icon]="faTrash"></fa-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="row">
+      <div class="col-5"></div>
+      <div class="col-2">
+        <strong>Subtotal: {{ vm.user.subtotal | currency: 'EUR'}}</strong>
+      </div>
+      <div class="col-5">
+        <button class="btn btn-secondary" [routerLink]="['/auth/cartdetails', vm.user._id]"
+          routerLinkActive="router-link-active">
+          Proceed to Checkout <fa-icon [icon]="faArrowRight"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</div>

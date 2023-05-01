@@ -1,0 +1,155 @@
+<div *ngIf="vm$ | async as vm">
+  <div *ngIf="vm.order">
+    <div class="row">
+      <div class="col-md-8">
+        <p class="my-3">Order placed on {{vm.order.createdAt | date:'medium'}}</p>
+      </div>
+      <div class="col-md-2">
+        <p>
+          <a class="btn btn-secondary col-md-12 my-2" [routerLink]="['/buy/manager/order',vm.order._id]" role="button">
+            Go to Order <fa-icon [icon]="faArrowRight"></fa-icon>
+          </a>
+        </p>
+      </div>
+      <div class="col-md-2">
+        <p>
+          <a class="btn btn-secondary col-md-12 my-2" [routerLink]="['/buy/manager/delivery',vm.order._id]"
+            role="button">
+            Go to Delivery Note <fa-icon [icon]="faArrowRight"></fa-icon>
+          </a>
+        </p>
+      </div>
+    </div>
+    <h3 class="mb-5">Invoice {{vm.order._id}}</h3>
+    <div class="row">
+      <div class="col-md-5">
+        <div class="card my-4">
+          <div class="card-body">
+            <h5 class="card-title"><strong>From: </strong></h5>
+            <p> <strong>Name: </strong><span class="name"> MarWebTrade Center</span>
+            </p>
+            <p><strong>Address: </strong><span class="address">Bahnhofstr.15, Freiburg</span> </p>
+            <p><span class="address1"> Freiburg 79111, Deutschland</span></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2"></div>
+      <div class="col-md-5">
+        <div class="card my-4" *ngIf="vm.order.invoiceAddress">
+          <div class="card-body">
+            <h5 class="card-title"><strong>For: </strong></h5>
+            <p> <strong>Name: </strong><span class="name"> {{vm.order.invoiceAddress.name}}</span>
+            </p>
+            <p><strong>Address: </strong><span class="address">{{vm.order.invoiceAddress.address}},
+                {{vm.order.invoiceAddress.city}}</span> </p>
+            <p><span class="address1"> {{vm.order.invoiceAddress.postalCode}},
+                {{vm.order.invoiceAddress.country}}</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <table class="table table-hover text-center">
+        <thead>
+          <tr>
+            <th scope="col">Ordered Item</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price/Item</th>
+            <th scope="col">Discount/ Item</th>
+            <th scope="col">Warranty/ Item</th>
+            <th scope="col" *ngIf="vm.order.extraPrice > 0">Protection/ Item</th>
+            <th scope="col" *ngIf="vm.order.giftPrice > 0">Gift Package</th>
+            <th scope="col">Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item  of vm.order.orderItems">
+            <td>{{item.name}}</td>
+            <td>{{item.quantity}}</td>
+            <td>{{item.price | currency:
+              'EUR'}}</td>
+            <td *ngIf="item.discount > 0">-{{(item.price *
+              item.discount) | currency:
+              'EUR'}}</td>
+            <td *ngIf="item.discount === 0">€0.00</td>
+
+            <td>{{(item.price * item.warranty) | currency:
+              'EUR'}}</td>
+
+            <td *ngIf="vm.order.extraPrice > 0 && (!vm.order.isPaid || (item.extra1 + item.extra2) === 0)">
+              {{(item.extra1 + item.extra2) | currency:
+              'EUR'}}</td>
+            <td *ngIf="vm.order.extraPrice > 0 && vm.order.isPaid && (item.extra1 +  item.extra2) > 0"><a
+                title="View Device Protection" class="text-info"
+                [routerLink]="['/buy/manager/device',vm.order._id]"><strong>{{(+item.extra1 +
+                  +item.extra2) |
+                  currency:
+                  'EUR'}}</strong></a></td>
+
+            <td *ngIf="vm.order.giftPrice > 0 && item.gift > 0 ">{{item.gift | currency:
+              'EUR'}}</td>
+            <td *ngIf="vm.order.giftPrice > 0 && item.gift === 0">€0.00</td>
+
+            <td>{{ (item.price * item.quantity -
+              item.price * item.quantity * item.discount +
+              item.price * item.quantity * item.warranty +
+              (item.extra1 + item.extra2) * item.quantity +
+              item.gift) | currency: 'EUR'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="row mb-5">
+      <div class="col-md-5">
+        <div class="card mt-4" *ngIf="vm.order.payment">
+          <div class="card-body">
+            <h5 class="card-title"><strong>Payment</strong></h5>
+            <p><strong>Payment Method:</strong> {{vm.order.payment.method}}</p>
+            <p><strong>Account ending in:</strong>
+              ****{{vm.order.payment.account.substring(vm.order.payment.account.length-4,
+              vm.order.payment.account
+              )}}</p>
+            <div *ngIf="!vm.order.isPaid" class="card border-danger mb-3">
+              <div class="card-header">Order is not paid yet</div>
+            </div>
+            <div *ngIf="vm.order.isPaid" class="card border-success mb-3">
+              <div class="card-header">Order has been paid on {{vm.order.paidAt | date:'medium'}}</div>
+            </div>
+            <div *ngIf="vm.order.invoiceSent" class="card border-success mb-3">
+              <div class="card-header">Invoice has been sent on {{vm.order.invoiceAt | date:'medium'}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-1"></div>
+      <div class="col-md-5">
+        <div class="card my-4">
+          <div class="card-body">
+            <h5 class="card-title mb-4"><strong>Invoice Summary</strong></h5>
+            <p><strong class="subtotal">Items Subtotal: </strong> {{vm.order.itemsPrice | currency: 'EUR'}}</p>
+            <p><strong class="shipping">Shipping Fee: </strong> {{vm.order.shippingPrice | currency: 'EUR'}} </p>
+            <p *ngIf="vm.order.primePrice > 0"><strong class="prime">Premium Subscription Fee:</strong>
+              €70.00 </p>
+            <p *ngIf="vm.order.franchisePrice > 0"><strong class="franchise">Franchising System Fee:
+              </strong> €500.00 </p>
+            <p *ngIf="vm.order.voucher && vm.order.voucher.trim() !== '' "><strong class="voucher">Loyalty Points
+                Voucher: </strong> - €10.00</p>
+            <p><strong class="tax">Tax Rate (15%): </strong> {{vm.order.taxPrice | currency: 'EUR'}}</p>
+            <p *ngIf="!vm.order.isPaid"><strong>TOTAL: </strong><span class="price">{{vm.order.totalPrice
+                |
+                currency:
+                'EUR'}}</span>
+            </p>
+            <p *ngIf="vm.order.isPaid" class="text-success"><strong>TOTAL: </strong>
+              <span class="price">{{vm.order.totalPrice |
+                currency:
+                'EUR'}}</span>
+            </p>
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+    </div>
+  </div>

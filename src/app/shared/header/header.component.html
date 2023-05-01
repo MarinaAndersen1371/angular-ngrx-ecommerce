@@ -1,0 +1,164 @@
+<div *ngIf="vm$ | async as vm">
+  <header class="header">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <a class="navbar-brand" [routerLink]="['home']">MarWeb Trade</a>
+        <a class="information" [routerLink]="['info-english']">Info</a>
+        <div class="togglebutton">
+          <button class="btn btn-lg btn-outline-info" (click)="open(content)"> <span
+              class="navbar-toggler-icon"></span></button>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarColor01">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" [routerLink]="['/shopping/products']">
+                <fa-icon [icon]="faShoppingCart"></fa-icon> Go Shopping
+              </a>
+            </li>
+            <div class="btn-group" dropdown *ngIf="vm.isAdmin">
+              <button id="button-basic" dropdownToggle type="button" class="btn btn-danger dropdown-toggle"
+                aria-controls="dropdown-basic"> Admin </button>
+              <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/shopping/product-list']">Products</a></li>
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/auth/user-list']">Users</a></li>
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/auth/admin-primelist']">Premium</a></li>
+                <li role="menuitem"><a class="dropdown-item"
+                    [routerLink]="['/auth/admin-franchiselist']">Franchising</a></li>
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/ticket-list']">Tickets</a></li>
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/buy/order-list']">Orders</a></li>
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/buy/delivery-list']">Delivery</a></li>
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/buy/admin-returns']">Returns</a></li>
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/buy/admin-devices']">Devices</a></li>
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/buy/admin-vouchers']">Vouchers</a></li>
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/buy/admin-packages']">Packages</a></li>
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/buy/admin-overview']">Overview</a></li>
+              </ul>
+            </div>
+
+            <div class="btn-group" dropdown *ngIf="vm.isManager">
+              <button id="button-basic" dropdownToggle type="button" class="btn btn-danger dropdown-toggle"
+                aria-controls="dropdown-basic"> Manager </button>
+              <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+                <li role="menuitem"><a class="dropdown-item"
+                    [routerLink]="['/shopping/manager/product-list']">Products</a></li>
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/auth/manager/user-list']">Users</a></li>
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/auth/manager-primelist']">Premium</a></li>
+                <li role="menuitem"><a class="dropdown-item"
+                    [routerLink]="['/auth/manager-franchiselist']">Franchising</a></li>
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/manager/ticket-list']">Tickets</a></li>
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/buy/manager/order-list']">Orders</a></li>
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/buy/manager/delivery-list']">Delivery</a>
+                </li>
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/buy/manager-returns']">Returns</a>
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/buy/manager-devices']">Devices</a>
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/buy/manager-vouchers']">Vouchers</a>
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/buy/manager-packages']">Packages</a>
+                </li>
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/buy/manager-overview']">Overview</a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="btn-group" dropdown *ngIf="vm.isFranchise">
+              <button id="button-basic" dropdownToggle type="button" class="btn btn-danger dropdown-toggle"
+                aria-controls="dropdown-basic"> Franchising </button>
+              <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/shopping/franchise-list']">Products</a>
+                </li>
+                <li role="menuitem"><a class="dropdown-item" [routerLink]="['/auth/franchise/info']">Info</a></li>
+              </ul>
+            </div>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <ng-template #content let-c="close" let-d="dismiss">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title"><a [routerLink]="['/shopping/products']"
+            (click)="d('Cross click')">
+            <fa-icon [icon]="faShoppingCart"></fa-icon> Go Shopping
+          </a></h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="d('Cross click')"></button>
+      </div>
+      <div class="modal-body">
+        <span *ngIf="vm.isAdmin">
+          <fa-icon [icon]="faUserShield" class="text-danger"></fa-icon> Admin Lists
+          <ul>
+            <li><a [routerLink]="['/shopping/product-list']" (click)="d('Cross click')">Products</a></li>
+            <li><a [routerLink]="['/auth/user-list']" (click)="d('Cross click')">Users</a></li>
+            <li><a [routerLink]="['/auth/admin-primelist']" (click)="d('Cross click')">Premium</a></li>
+            <li><a [routerLink]="['/auth/admin-franchiselist']" (click)="d('Cross click')">Franchising</a></li>
+            <li><a [routerLink]="['/ticket-list']" (click)="d('Cross click')">Tickets</a></li>
+            <li><a [routerLink]="['/buy/order-list']" (click)="d('Cross click')">Orders</a></li>
+            <li><a [routerLink]="['/buy/delivery-list']" (click)="d('Cross click')">Delivery</a></li>
+            <li><a [routerLink]="['/buy/admin-returns']" (click)="d('Cross click')">Returns</a></li>
+            <li><a [routerLink]="['/buy/admin-devices']" (click)="d('Cross click')">Devices</a></li>
+            <li><a [routerLink]="['/buy/admin-vouchers']" (click)="d('Cross click')">Vouchers</a></li>
+            <li><a [routerLink]="['/buy/admin-packages']" (click)="d('Cross click')">Packages</a></li>
+            <li><a [routerLink]="['/buy/admin-overview']" (click)="d('Cross click')">Overview</a></li>
+          </ul>
+        </span>
+
+        <span *ngIf="vm.isManager">
+          <fa-icon [icon]="faUserShield" class="text-danger"></fa-icon> Manager Lists
+          <ul>
+            <li><a [routerLink]="['/shopping/manager/product-list']" (click)="d('Cross click')">Products</a></li>
+            <li><a [routerLink]="['/auth/manager/user-list']" (click)="d('Cross click')">Users</a></li>
+            <li><a [routerLink]="['/auth/manager-primelist']" (click)="d('Cross click')">Premium</a></li>
+            <li><a [routerLink]="['/auth/manager-franchiselist']" (click)="d('Cross click')">Franchising</a></li>
+            <li><a [routerLink]="['/manager/ticket-list']" (click)="d('Cross click')">Tickets</a></li>
+            <li><a [routerLink]="['/buy/manager/order-list']" (click)="d('Cross click')">Orders</a></li>
+            <li><a [routerLink]="['/buy/manager/delivery-list']" (click)="d('Cross click')">Delivery</a></li>
+            <li><a [routerLink]="['/buy/manager-returns']" (click)="d('Cross click')">Returns</a></li>
+            <li><a [routerLink]="['/buy/manager-devices']" (click)="d('Cross click')">Devices</a></li>
+            <li><a [routerLink]="['/buy/manager-vouchers']" (click)="d('Cross click')">Vouchers</a></li>
+            <li><a [routerLink]="['/buy/manager-packages']" (click)="d('Cross click')">Packages</a></li>
+            <li><a [routerLink]="['/buy/manager-overview']" (click)="d('Cross click')">Overview</a></li>
+          </ul>
+        </span>
+
+        <span *ngIf="vm.isFranchise">
+          <fa-icon [icon]="faUserShield" class="text-danger"></fa-icon> Franchising
+          <ul>
+            <li><a [routerLink]="['/shopping/franchise-list']" (click)="d('Cross click')">Products</a></li>
+            <li><a [routerLink]="['/auth/franchise/info']" (click)="d('Cross click')">Info</a></li>
+
+          </ul>
+        </span>
+
+        <span *ngIf="vm.isLoggedIn">
+          <fa-icon [icon]="faUser" class="text-info"></fa-icon> {{vm.firstName}}<ul>
+            <li><a [routerLink]="['/auth/usercart', vm._id]" (click)="d('Cross click')">
+                My Cart
+              </a></li>
+            <li><a [routerLink]="['/buy/myorders']" (click)="d('Cross click')">
+                My Orders
+              </a></li>
+            <li><a [routerLink]="['/auth/userprofile', vm._id]" (click)="d('Cross click')">
+                My Profile
+              </a></li>
+            <li><a [routerLink]="['/auth/my-mails']" (click)="d('Cross click')">
+                My Mails
+              </a></li>
+            <li> <a (click)="logout()">
+                <fa-icon [icon]="faSignOutAlt"></fa-icon> Logout
+              </a></li>
+          </ul>
+        </span>
+        <span *ngIf="!vm.isLoggedIn">
+          <ul>
+            <li><a [routerLink]="['/auth/register']" (click)="d('Cross click')">
+                <fa-icon [icon]=" faUserPlus"></fa-icon>
+                Register
+              </a></li>
+            <li><a [routerLink]="['/auth/login']" (click)="d('Cross click')">
+                <fa-icon [icon]=" faSignInAlt"></fa-icon>
+                Sign In
+              </a></li>
+          </ul>
+        </span>
+      </div>
+    </ng-template>
+  </header>
+</div>

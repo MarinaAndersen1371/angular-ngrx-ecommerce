@@ -1,0 +1,46 @@
+<div *ngIf="vm$ | async as vm" class="big">
+  <span *ngIf="vm.isLoggedIn">
+    <nav class="navbar navbar-expand-lg navbar-danger bg-danger">
+      <div class="collapse navbar-collapse mx-0" id="navbarColor01">
+        <ul class="navbar-nav ml-auto">
+          <div class="btn-group" dropdown>
+            <button id="button-basic" dropdownToggle type="button" class="btn btn-danger dropdown-toggle"
+              aria-controls="dropdown-basic">
+              <span class="bg-info mr-5 p-2">
+                <fa-icon [icon]="faUser"></fa-icon> {{vm.firstName}}
+              </span>
+            </button>
+            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+              <li role="menuitem"><a class="dropdown-links mx-3" [routerLink]="['/auth/usercart', vm._id]">
+                  My Cart
+                </a></li>
+              <li role="menuitem"><a class="dropdown-links mx-3" [routerLink]="['/buy/myorders']">
+                  My Orders
+                </a></li>
+              <li role="menuitem"><a class="dropdown-links mx-3" [routerLink]="['/auth/userprofile', vm._id]">
+                  My Profile
+                </a></li>
+              <li role="menuitem"><a class="dropdown-links mx-3" [routerLink]="['/auth/my-mails']">
+                  My Mails
+                </a></li>
+              <li role="menuitem" class="auth-logout-link mx-3" (click)="logout()">
+                <fa-icon [icon]="faSignOutAlt"></fa-icon> Logout
+              </li>
+            </ul>
+          </div>
+        </ul>
+      </div>
+    </nav>
+  </span>
+
+  <span class="auth-links" *ngIf="!vm.isLoggedIn">
+    <a [routerLink]="['/auth/register']">
+      <fa-icon [icon]="faUserPlus"></fa-icon>
+      Register
+    </a>
+    <a [routerLink]="['/auth/login']">
+      <fa-icon [icon]="faSignInAlt"></fa-icon>
+      Sign In
+    </a>
+  </span>
+</div>

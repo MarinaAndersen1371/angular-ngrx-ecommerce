@@ -1,0 +1,25 @@
+@import "~bootswatch/dist/cosmo/variables";
+.auth-links a {
+  display: inline-block;
+  padding: 2px 10px;
+  color: $light;
+  text-decoration: none;
+  cursor: pointer;
+}
+.dropdown-links {
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}
+.auth-logout-link {
+  cursor: pointer;
+}
+a:hover,
+.auth-logout-link:hover {
+  color: red;
+}
+@media (max-width: 995px) {
+  .big {
+    display: none;
+  }
+}

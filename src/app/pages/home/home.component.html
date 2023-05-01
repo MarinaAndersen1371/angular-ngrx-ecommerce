@@ -1,0 +1,66 @@
+<div class="row">
+  <div class="col-md-4">
+    <div id="container">
+      <p>Welcome to my</p>
+      <p id="text-wrapper">
+        <span id="rotating-text">
+          <span class="blue-text">ANGULAR</span>
+          <span class="orange-text">NGRX</span>
+          <span class="red-text">MongoDB</span>
+        </span>
+      </p>
+      <p>Application!</p>
+    </div>
+  </div>
+
+  <div class="col-md-7 my-3">
+    <h4 class="mt-5">
+      This is an Angular-NGRX based Application.</h4>
+    <h5>
+      In building of the project I am using "Oopcoders.com" tutorial materials, but I have created the backend
+      differently - using Node express, MongoDB, seeder etc. instead of a fake json-server. The frontend is built by
+      using Angular 13, NGRX tools, Bootstrap, Spinner and Alert effects etc.<br /> I have
+      modified
+      on my way Shopping Cart procedure (cart items should be saved to the user data) and Place
+      Order procedure (an order creation triggers update of the shopping cart and reduction of the ordered items
+      quantity in the products stock). Furthermore, I
+      have added some
+      features, for example
+      User Registration, Ticket, User Profile, Mailbox and Notification Email, Product Review and Rating, Order Return,
+      form
+      validation, responsive
+      navbar, password reset etc. <br />
+      Some another of my ideas in this project:<br />
+      - Premium Membership (free shipping and loyalty points voucher): once the fee is paid, the status should be
+      updated automatically and displayed in the user profile, in place order procedure. Manager area allows to generate
+      coupon (loyalty points voucher). Voucher discount will be displayed in order summary by coupon/voucher
+      submission.<br />
+      - Franchise Membership: once the fee is paid, user should get access to the test completion, which should be
+      automatically validated and the result should be displayed, etc.
+    </h5>
+
+    <h5 class="my-3">
+      You can check out the project functionality using sample users credentials:<br>
+      admin@web.de / manager@web.de / klava@web.de / all passwords: 123456
+      <br>
+      Also you can register your own user.
+    </h5>
+
+    <div class="row my-5">
+      <div class="col-3 link">
+        <fa-icon [icon]="faLink"></fa-icon> <a href="https://github.com/MarinaAndersen1371/angular-ngrx-ecommerce"
+          target="_blank">
+          Github</a>
+      </div>
+      <div class="col-3 link">
+        <fa-icon [icon]="faLink"></fa-icon> <a [routerLink]="['/shopping/products']"> Live Demo</a>
+      </div>
+      <div class="col-3 link">
+        <fa-icon [icon]="faLink"></fa-icon> <a href="https://oopcoders.com/" target="_blank"> Source</a>
+      </div>
+      <div class="col-3"></div>
+    </div>
+
+    <div class="col-md-1"></div>
+  </div>
+</div>

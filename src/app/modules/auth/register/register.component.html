@@ -1,0 +1,141 @@
+<div class="row">
+  <div class="login-form mt-5 col-md-6 offset-2">
+    <h3>Sign Up</h3>
+    <p class="text-xs-center">
+      <a [routerLink]="['/auth/login']">Have an account?</a>
+    </p>
+
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+      <div class="form-group my-3">
+        <label>First Name:</label>
+        <input type="text" name="firstName" ngModel #firstName="ngModel" required id="firstName" minlength="2"
+          class="form-control form-control-lg" placeholder="Enter First Name">
+        <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)">
+          <div class="text-danger" *ngIf="firstName.errors?.['required']">
+            First Name required
+          </div>
+          <div *ngIf="firstName.errors?.['minlength']" class="text-danger">
+            First Name must be at least 2 characters long.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group my-3">
+        <label>Last Name:</label>
+        <input type="text" name="username" ngModel #username="ngModel" required id="username" minlength="2"
+          class="form-control form-control-lg" placeholder="Enter Last Name">
+        <div *ngIf="username.invalid && (username.dirty || username.touched)">
+          <div class="text-danger" *ngIf="username.errors?.['required']">
+            Last Name required
+          </div>
+          <div *ngIf="username.errors?.['minlength']" class="text-danger">
+            Last Name must be at least 2 characters long.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group my-3">
+        <label>Email Address:</label>
+        <input type="email" name="email" ngModel #email="ngModel" required id="email"
+          class="form-control form-control-lg" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+          placeholder="Enter Email Address">
+        <div *ngIf="email.invalid && (email.dirty || email.touched)">
+          <div class="text-danger" *ngIf="email.errors?.['required']">
+            Email Address required
+          </div>
+          <div class="text-danger" *ngIf="email.errors?.['pattern']">
+            Email is not valid
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group my-3">
+        <label>Password:</label>
+        <input type="password" name="password" class="form-control form-control-lg" ngModel #password="ngModel" required
+          minlength="6" id="password" placeholder="Enter Password">
+        <div *ngIf="password.invalid && (password.dirty || password.touched)">
+          <div class="text-danger" *ngIf="password.errors?.['required']">
+            Password required
+          </div>
+          <div *ngIf="password.errors?.['minlength']" class="text-danger">
+            Password must be at least 6 characters long.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group my-3">
+        <label>Confirm Password:</label>
+        <input type="password" name="passwordConfirm" class="form-control form-control-lg" ngModel
+          [pattern]="f.value.password" #passwordConfirm="ngModel" required id="passwordConfirm"
+          placeholder="Confirm Password">
+        <div *ngIf="passwordConfirm.invalid && (passwordConfirm.dirty || passwordConfirm.touched)">
+          <div class="text-danger" *ngIf="passwordConfirm.errors?.['required']">
+            Password required
+          </div>
+          <div class="text-danger" *ngIf="passwordConfirm.errors?.['pattern']">
+            Passwords do not match
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group my-3">
+        <label>Phone Number:</label>
+        <input type="text" name="phone" ngModel #phone="ngModel" required id="phone" minlength="10" pattern="^[0-9]*$"
+          class="form-control form-control-lg" placeholder="Enter Phone Number">
+        <div *ngIf="phone.invalid && (phone.dirty || phone.touched)">
+          <div class="text-danger" *ngIf="phone.errors?.['required']">
+            Phone Number required
+          </div>
+          <div class="text-danger" *ngIf="phone.errors?.['pattern']">
+            Phone Number is not valid
+          </div>
+          <div *ngIf="phone.errors?.['minlength']" class="text-danger">
+            Phone Number must be at least 10 characters long.
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group my-3">
+        <label>Type of Purchasing:</label>
+        <select name="purpose" id="purpose" [(ngModel)]="ngSelectPurpose" class="form-control form-select">
+          <option value="Other">Other</option>
+          <option value="Private Customer">Private Customer</option>
+          <option value="Wholesale Business">Wholesale Business</option>
+          <option value="Franchise Member">Franchise Member</option>
+        </select>
+      </div>
+
+      <div class="form-group my-3">
+        <div class="row">
+          <div class="col-3"> <label>Date of Birth:</label></div>
+          <div class="col-5">
+            <input type="date" name="birthday" ngModel #birthday="ngModel" required id="birthday"
+              class="form-control form-control-lg">
+            <div *ngIf="birthday.invalid && (birthday.dirty || birthday.touched)">
+              <div class="text-danger" *ngIf="birthday.errors?.['required']">
+                Required
+              </div>
+            </div>
+          </div>
+          <div class="col-3"></div>
+        </div>
+      </div>
+
+      <div class="form-group my-3">
+        <div class="row ">
+          <div class="col-3"> <label>Gender:</label></div>
+          <div class="col-2">
+            <input type="radio" name="gender" [(ngModel)]="ngSelectGender" ngModel #gender="ngModel" required
+              value="Male"> Male
+          </div>
+          <div class="col-4"><input type="radio" name="gender" [(ngModel)]="ngSelectGender" ngModel #gender="ngModel"
+              required value="Female"> Female</div>
+          <div class="col-3"></div>
+        </div>
+      </div>
+
+      <button class="btn btn-secondary pull-xs-right btn-lg my-4" type="submit"
+        [disabled]="!f.form.valid">Register</button>
+    </form>
+  </div>
+</div>

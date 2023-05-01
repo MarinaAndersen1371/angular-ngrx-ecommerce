@@ -1,0 +1,64 @@
+<div *ngIf="vm$ | async as vm">
+  <h3 class="my-4">Loyalty Points Voucher List</h3>
+  <div class="row" *ngIf="vm.statistics && +vm.statistics.qtyVoucher < 1; else showTableBlock">
+    <div class="col-6 offset-3 text-center">
+      <div class="empty-cart-list-icon">
+        <fa-icon [icon]="faBoxOpen"></fa-icon>
+      </div>
+      <h5>No Data to show</h5>
+    </div>
+  </div>
+
+  <ng-template #showTableBlock>
+    <table *ngIf="vm.orders" class="table table-hover text-center my-5">
+      <thead>
+        <tr>
+          <th scope="col">OrderID</th>
+          <th scope="col">Date</th>
+          <th scope="col">Customer Name</th>
+          <th scope="col">Order Total</th>
+          <th scope="col">Premium Voucher</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of vm.orders">
+          <td *ngIf="order.voucher.trim() !== ''">{{order._id}} </td>
+          <td *ngIf="order.voucher.trim() !== ''">{{order.createdAt | date:'medium'}}</td>
+          <td *ngIf="order.voucher.trim() !== ''">{{order.user.firstName}} {{order.user.username}}</td>
+          <td *ngIf="order.voucher.trim() !== '' && !order.isPaid">{{order.totalPrice | currency: 'EUR'}}</td>
+          <td *ngIf="order.voucher.trim() !== '' && order.isPaid" class="text-primary">{{order.totalPrice | currency:
+            'EUR'}}
+          </td>
+          <td *ngIf="order.voucher.trim() !== '' && !order.isPaid">{{order.voucher}}</td>
+          <td *ngIf="order.voucher.trim() !== '' && order.isPaid" class="text-primary">{{order.voucher}}</td>
+          <td *ngIf="order.voucher.trim() !== ''">
+            <button type="button" class="btn btn-info" title="View Order"
+              [routerLink]="['/buy/admin/order', order._id]">
+              <fa-icon [icon]="faSearch">
+              </fa-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="table table-hover text-center my-5" *ngIf="vm.orders && vm.statistics">
+      <thead>
+        <tr>
+          <th scope="col">Orders Qty</th>
+          <th scope="col">Orders Total Amount</th>
+          <th scope="col">Vouchers Qty</th>
+          <th scope="col">Vouchers Total Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{vm.orders.length}} </td>
+          <td>{{+vm.statistics.totalPriceNotPaid + +vm.statistics.totalPricePaid | currency: 'EUR'}}</td>
+          <td>{{vm.statistics.qtyVoucher }} </td>
+          <td>{{+vm.statistics.qtyVoucher * 10 | currency: 'EUR'}} </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-template>
+</div>

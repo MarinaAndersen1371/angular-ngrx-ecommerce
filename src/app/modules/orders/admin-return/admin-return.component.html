@@ -1,0 +1,91 @@
+<div *ngIf="vm$ | async as vm">
+  <div *ngIf="vm.order">
+    <div class="row">
+      <div class="col-md-10">
+        <p class="my-3">Order placed on {{vm.order.createdAt | date:'medium'}}</p>
+      </div>
+      <div class="col-md-2"><a class="btn btn-secondary col-md-12 my-2"
+          [routerLink]="['/buy/admin/order', vm.order._id]" role="button">
+          Go to Order <fa-icon [icon]="faArrowRight"></fa-icon>
+        </a></div>
+    </div>
+    <h3><strong>Return {{vm.order._id}}</strong></h3>
+    <p>Status: <span *ngIf="!vm.order.returnClosed" class="text-danger">Active</span> <span
+        *ngIf="vm.order.returnClosed" class="text-info">Closed</span></p>
+    <div class="row">
+      <table class="table table-hover text-center">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price/Item</th>
+            <th scope="col">Discount/ Item</th>
+            <th scope="col">Warranty/ Item</th>
+            <th scope="col">Protection/ Item</th>
+            <th scope="col">Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item  of vm.order.orderItems ">
+            <th scope="row"><span class="cart-list-image"><img src="{{item.imageUrl}}"></span></th>
+            <td>{{item.name}}</td>
+            <td>{{item.quantity}}</td>
+            <td>{{item.price | currency:
+              'EUR'}}</td>
+            <td *ngIf="item.discount > 0">-{{(item.price *
+              item.discount) | currency:
+              'EUR'}}</td>
+            <td *ngIf="item.discount === 0">€0.00</td>
+            <td>{{(item.price * item.warranty) | currency:
+              'EUR'}}</td>
+            <td>{{(item.extra1 + item.extra2) | currency:
+              'EUR'}}</td>
+            <td>{{ (item.price * item.quantity -
+              item.price * item.quantity * item.discount +
+              item.price * item.quantity * item.warranty + (item.extra1 + item.extra2) * item.quantity) |
+              currency: 'EUR'}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div *ngIf="vm.order.returnReceived" class="card border-success my-1">
+            <div class="card-header">Return has been received on {{vm.order.returnReceivedAt | date:'medium'}}</div>
+          </div>
+          <div *ngIf="vm.order.refund" class="card border-success my-3">
+            <div class="card-header">Refund has been paid
+              {{vm.order.refundAt | date:'medium'}}</div>
+          </div>
+        </div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <p><strong class="subtotal">Items Subtotal: </strong> {{vm.order.itemsPriceReturn | currency: 'EUR'}}
+              </p>
+              <p><strong class="shipping">Shipping Fee: </strong> {{vm.order.shippingPriceReturn | currency: 'EUR'}}
+              </p>
+              <p *ngIf="vm.order.voucher && vm.order.voucher.trim() !== '' "><strong class="voucher">Loyalty
+                  Points
+                  Voucher: </strong> - €10.00</p>
+              <p><strong class="tax">Tax Rate (15%): </strong> {{vm.order.taxPriceReturn | currency: 'EUR'}}</p>
+              <p *ngIf="!vm.order.refund"><strong>TOTAL RETURN: </strong><span class="price">{{vm.order.totalPriceReturn
+                  |
+                  currency:
+                  'EUR'}}</span>
+              </p>
+              <p *ngIf="vm.order.refund" class="text-success"><strong>TOTAL: </strong>
+                <span class="price2">{{vm.order.totalPriceReturn |
+                  currency:
+                  'EUR'}}</span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <p>* There is no Refund for Gift Package, Premium or Franchise Subscriptions</p>
+        <p>** There is no Shipping Fee Refund for already dispatched Orders</p>
+      </div>
+    </div>
+  </div>

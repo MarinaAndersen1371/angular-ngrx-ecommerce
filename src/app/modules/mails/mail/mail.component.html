@@ -1,0 +1,57 @@
+<div class="row" *ngIf="vm$ | async as vm">
+  <div *ngIf="vmUser$ | async as vmUser">
+    <div
+      *ngIf="vm.mail && vmUser && (vm.mail.mailTarget === vmUser.email || vm.mail.user && vm.mail.user.email === vmUser.email); else showMessageBlock">
+      <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+          <h3 class="mt-5"><strong>Mail:</strong></h3>
+          <div class="card border-info">
+            <div class="card-header">
+              <div class="row">
+                <div class="col-5">
+                  <h5><strong>From:</strong> {{vm.mail.user && vm.mail.user.firstName}} {{vm.mail.user &&
+                    vm.mail.user.username}}</h5>
+                  <h5><strong>To:</strong> {{ vm.mail.firstNameTarget}} {{
+                    vm.mail.lastNameTarget}}</h5>
+                  <p><strong>Subject:</strong> {{vm.mail.subject}} </p>
+                </div>
+                <div class="col-3"></div>
+                <div class="col-4">
+                  <p><fa-icon [icon]="faStar" class="text-warning"
+                      *ngIf="vm.mail.status && vm.mail.mailTarget === vmUser.email"></fa-icon>
+                    <strong> Date: </strong> {{vm.mail.createdAt | date:'medium'}}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card border-info my-2">
+            <p class="m-4"> {{vm.mail.message}}</p>
+          </div>
+          <div class="col-3">
+            <button type="button" class="btn btn-info mx-1" [routerLink]="['/auth/my-mails']"
+              *ngIf="vm.mail.mailTarget === vmUser.email">
+              <fa-icon [icon]="faArrowLeft" type="button"></fa-icon> Back To
+              List
+            </button>
+            <button type="button" class="btn btn-info mx-1" [routerLink]="['/auth/my-mails']"
+              *ngIf="vm.mail.user && vm.mail.user.email === vmUser.email">
+              <fa-icon [icon]="faArrowLeft" type="button"></fa-icon> Back To
+              List
+            </button>
+          </div>
+        </div>
+        <div class="col-2"></div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #showMessageBlock>
+    <div class="text-center mt-5">
+      <h5>You are not authorized for this Page</h5>
+      <p>
+        <a class="btn btn-secondary" [routerLink]="['/shopping/products']" role="button"> Go Back </a>
+      </p>
+    </div>
+  </ng-template>

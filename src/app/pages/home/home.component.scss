@@ -1,0 +1,83 @@
+@import "~bootswatch/dist/cosmo/variables";
+
+body {
+  margin: 0;
+}
+
+#container {
+  text-align: center;
+  font-size: 36px;
+  font-weight: bold;
+  padding-top: 100px;
+  width: 100%;
+}
+
+#text-wrapper {
+  height: 50px;
+  overflow: hidden;
+}
+
+#rotating-text span {
+  color: #fff;
+  padding: 4px 12px;
+  height: 53px;
+  margin-bottom: 50px;
+  display: block;
+  width: 250px;
+  margin: 0 auto;
+}
+
+.blue-text {
+  background-color: $danger !important;
+}
+
+.orange-text {
+  background-color: $warning !important;
+}
+
+.red-text {
+  background-color: $info !important;
+}
+
+#rotating-text {
+  display: block;
+  animation: rotate 5s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: translateY(-160px);
+  }
+  5% {
+    transform: translateY(-106px);
+  }
+  33% {
+    transform: translateY(-106px);
+  }
+  38% {
+    transform: translateY(-54px);
+  }
+  66% {
+    transform: translateY(-54px);
+  }
+  71% {
+    transform: translateY(0);
+  }
+  99.9% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-160px);
+  }
+}
+
+a,
+.link {
+  text-decoration: none;
+  color: $info !important;
+}
+
+a:hover {
+  text-decoration: none;
+  color: $danger !important;
+}

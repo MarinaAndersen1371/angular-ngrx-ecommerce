@@ -1,0 +1,72 @@
+<div *ngIf="vm$ | async as vm">
+  <h3 class="my-4">Premium Member List</h3>
+  <div class="row" *ngIf="vm.statistics && +vm.statistics.qtyPrime < 1; else showTableBlock">
+    <div class="col-6 offset-3 text-center">
+      <div class="empty-cart-list-icon">
+        <fa-icon [icon]="faBoxOpen"></fa-icon>
+      </div>
+      <h5>No Data to show</h5>
+    </div>
+  </div>
+
+  <ng-template #showTableBlock>
+    <table class="table table-hover text-center" *ngIf="vm.users && vm.users.active">
+      <thead>
+        <tr>
+          <th>User ID</th>
+          <th>User First Name</th>
+          <th>User Last Name</th>
+          <th>Type of Purchasing</th>
+          <th>Premium From</th>
+          <th>Premium Coupon</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of vm.users.active">
+          <td *ngIf="user.isPrime">{{user._id}}</td>
+          <td *ngIf="user.isPrime">{{user.firstName}}</td>
+          <td *ngIf="user.isPrime">{{user.username}}</td>
+          <td *ngIf="user.isPrime">{{user.purpose}}</td>
+          <td *ngIf="user.isPrime"> {{user.primeFrom |
+            date}}</td>
+          <td *ngIf="user.isPrime && user.coupon.trim() !== ''">{{user.coupon}}</td>
+          <td *ngIf="user.isPrime && user.coupon.trim() === ''">
+            <fa-icon [icon]="faTimes"></fa-icon>
+          </td>
+          <td *ngIf="user.isPrime">
+            <button type="button" class="btn btn-info" title="View User"
+              [routerLink]="['/auth/manager/user', user._id]">
+              <fa-icon [icon]="faSearch">
+              </fa-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="table table-hover text-center my-5" *ngIf="vm.users && vm.users.active && vm.statistics">
+      <thead>
+        <tr>
+          <th>All Users / Quantity</th>
+          <th>Total Premium Members Quantity</th>
+          <th>Total Fee / Cost</th>
+          <th>Total Fee / Revenue</th>
+          <th>Total Fee / Profit</th>
+          <th>Total Premium Coupon Quantity</th>
+          <th>Total Premium Coupon Fee</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{vm.users.active.length}}</td>
+          <td>{{vm.statistics.qtyPrime}}</td>
+          <td class="text-danger">{{+vm.statistics.qtyPrime * 7 | currency: 'EUR'}}</td>
+          <td>{{+vm.statistics.qtyPrime * 70 | currency: 'EUR'}}</td>
+          <td class="text-success">{{+vm.statistics.qtyPrime * 63 | currency: 'EUR'}}</td>
+          <td>{{vm.statistics.qtyPrimeCoupon}}</td>
+          <td>{{+vm.statistics.qtyPrimeCoupon * 10 | currency: 'EUR'}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-template>
+</div>

@@ -1,0 +1,72 @@
+<div *ngIf="vm$ | async as vm">
+  <h3 class="my-4">Gift Packages List</h3>
+  <div class="row" *ngIf="vm.statistics && +vm.statistics.qtyGift < 1; else showTableBlock">
+    <div class="col-6 offset-3 text-center">
+      <div class="empty-cart-list-icon">
+        <fa-icon [icon]="faBoxOpen"></fa-icon>
+      </div>
+      <h5>No Data to show</h5>
+    </div>
+  </div>
+
+  <ng-template #showTableBlock>
+    <table *ngIf="vm.orders" class="table table-hover text-center my-5">
+      <thead>
+        <tr>
+          <th scope="col">Order ID</th>
+          <th scope="col">Date</th>
+          <th scope="col">Customer Name</th>
+          <th scope="col">Cost</th>
+          <th scope="col">Revenue</th>
+          <th scope="col">Profit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of vm.orders">
+          <td *ngIf="order.giftPrice > 0">{{order._id}} </td>
+          <td *ngIf="order.giftPrice > 0">{{order.createdAt | date:'medium'}}</td>
+          <td *ngIf="order.giftPrice > 0">{{order.user.firstName}} {{order.user.username}}</td>
+          <td *ngIf="order.giftPrice > 0" class="text-danger">{{order.giftPrice*0.1 | currency: 'EUR'}}
+          </td>
+          <td *ngIf="order.giftPrice > 0 && order.isPaid" class="text-primary">{{order.giftPrice | currency: 'EUR'}}
+          </td>
+          <td *ngIf="order.giftPrice > 0 && !order.isPaid">{{order.giftPrice | currency: 'EUR'}}</td>
+          <td *ngIf="order.giftPrice > 0 && order.isPaid" class="text-primary">{{order.giftPrice*0.9 | currency: 'EUR'}}
+          </td>
+          <td *ngIf="order.giftPrice > 0 && !order.isPaid">{{order.giftPrice*0.9 | currency: 'EUR'}}</td>
+
+          <td *ngIf="order.giftPrice > 0">
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-info" title="View Order"
+                [routerLink]="['/buy/manager/order', order._id]">
+                <fa-icon [icon]="faSearch">
+                </fa-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="table table-hover text-center my-5" *ngIf="vm.orders && vm.statistics">
+      <thead>
+        <tr>
+          <th scope="col">All Orders Qty</th>
+          <th scope="col">Orders with Packages/Qty</th>
+          <th scope="col">Total Cost</th>
+          <th scope="col">Total Revenue</th>
+          <th scope="col">Total Profit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{vm.orders.length}} </td>
+          <td>{{vm.statistics.qtyGift}} </td>
+          <td>{{vm.statistics.totalGiftPrice*0.1 | currency: 'EUR'}} </td>
+          <td>{{vm.statistics.totalGiftPrice | currency: 'EUR'}} </td>
+          <td>{{vm.statistics.totalGiftPrice*0.9 | currency: 'EUR'}} </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-template>
+</div>

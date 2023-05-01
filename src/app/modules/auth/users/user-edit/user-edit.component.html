@@ -1,0 +1,150 @@
+<div class="col-8 mt-4">
+  <h4>Edit User</h4>
+  <form #f="ngForm" (ngSubmit)="onSubmit()">
+    <div class="form-group my-3">
+      <label>First Name:</label>
+      <input type="text" name="firstName" [(ngModel)]="model.firstName" required id="firstName" class="form-control">
+    </div>
+
+    <div class="form-group my-3">
+      <label>Last Name:</label>
+      <input type="text" name="username" [(ngModel)]="model.username" required id="username"
+        class="form-control form-control-lg">
+    </div>
+
+    <div class="form-group my-3">
+      <label>Email Address:</label>
+      <input type="email" name="email" [(ngModel)]="model.email" required id="email" class="form-control">
+    </div>
+
+    <div class="form-group my-3">
+      <label>Phone Number:</label>
+      <input type="text" name="phone" [(ngModel)]="model.phone" required id="phone" class="form-control">
+    </div>
+
+    <div class="form-group my-3">
+      <label>Type of Purchasing:</label>
+      <select name="purpose" id="purpose" [(ngModel)]="model.purpose" class="form-control form-select">
+        <option value="Other">Other</option>
+        <option value="Private Customer">Private Customer</option>
+        <option value="Wholesale Business">Wholesale Business</option>
+        <option value="Franchise Member">Franchise Member</option>
+      </select>
+    </div>
+
+    <div class="form-group my-3">
+      <div class="row">
+        <div class="col-3"> <label>Date of Birth:</label></div>
+        <div class="col-4">
+          <input type="date" name="birthday" [(ngModel)]="model.birthday" required id="birthday" class="form-control">
+        </div>
+        <div class="col-5"></div>
+      </div>
+    </div>
+
+    <div class="form-group my-3">
+      <div class="row ">
+        <div class="col-3"> <label>Gender:</label></div>
+        <div class="col-2">
+          <input type="radio" name="gender" [(ngModel)]="model.gender" required value="Male"> Male
+        </div>
+        <div class="col-4"><input type="radio" name="gender" [(ngModel)]="model.gender" required value="Female">
+          Female</div>
+        <div class="col-3"></div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group my-3">
+          <div class="row">
+            <div class="col-3"> <label>Is Prime</label></div>
+            <div class="col-3 form-check">
+              <input type="checkbox" [checked]="model.isPrime" (change)="model.isPrime = !model.isPrime" required
+                class="form-check-input">
+            </div>
+            <div class="col-6"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group my-3">
+          <div class="row">
+            <div class="col-3"> <label>Coupon:</label></div>
+            <div class="col-5">
+              <input type="text" name="coupon" [(ngModel)]="model.coupon" required id="coupon" class="form-control">
+            </div>
+            <div class="col-4"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group my-3">
+          <div class="row">
+            <div class="col-3"> <label>Test Paid</label></div>
+            <div class="col-3 form-check">
+              <input type="checkbox" [checked]="model.testPaid" (change)="model.testPaid = !model.testPaid" required
+                class="form-check-input">
+            </div>
+            <div class="col-6"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group my-3">
+          <div class="row">
+            <div class="col-4"> <label>Test Score(%):</label></div>
+            <div class="col-4">
+              <input type="text" name="testScore" [(ngModel)]="model.testScore" required id="testScore"
+                class="form-control">
+            </div>
+            <div *ngIf="model.testScore < 0 || model.testScore > 100" class="alert alert-dismissible alert-warning">
+              <p class="mb-0">Invalid data!</p>
+            </div>
+            <div class="col-4"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group my-3">
+          <div class="row">
+            <div class="col-3"> <label>Is Franchise</label></div>
+            <div class="col-3 form-check">
+              <input type="checkbox" [checked]="model.isFranchise" (change)="model.isFranchise = !model.isFranchise"
+                required class="form-check-input">
+            </div>
+            <div class="col-6"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group my-3">
+          <div class="row">
+            <div class="col-3"> <label>Is Manager</label></div>
+            <div class="col-3 form-check">
+              <input type="checkbox" [checked]="model.isManager" (change)="model.isManager = !model.isManager" required
+                class="form-check-input">
+            </div>
+            <div class="col-6"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-info m-2" [routerLink]="['/auth/user-list']">
+      <fa-icon [icon]="faArrowLeft" type="button"></fa-icon> Back To
+      List
+    </button>
+    <button class="btn btn-warning" type="submit" [disabled]="model.testScore < 0 || model.testScore > 100">Edit
+      User
+      <fa-icon [icon]="faEdit">
+      </fa-icon>
+    </button>
+  </form>
+</div>

@@ -1,0 +1,103 @@
+<div *ngIf="vm$ | async as vm">
+  <h3 class="my-4">Delivery Note List</h3>
+  <div class="row" *ngIf="vm.orders &&  vm.orders.length < 1; else showTableBlock">
+    <div class="col-6 offset-3 text-center">
+      <div class="empty-cart-list-container">
+        <div class="empty-cart-list-icon">
+          <fa-icon [icon]="faBoxOpen"></fa-icon>
+        </div>
+        <h5>No Data to show</h5>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #showTableBlock>
+    <table *ngIf="vm.orders" class="table table-hover text-center">
+      <thead>
+        <tr>
+          <th scope="col">Order ID</th>
+          <th scope="col">Date</th>
+          <th scope="col">Customer Name</th>
+          <th scope="col">Order Total</th>
+          <th scope="col">Shipping Fee</th>
+          <th scope="col">Type of Shipping</th>
+          <th scope="col">Order Dispatched</th>
+          <th scope="col">Order Delivered</th>
+          <th scope="col">Return Received</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of vm.orders | slice: (page-1) * pageSize : page * pageSize">
+          <td>{{order._id}} </td>
+          <td>{{order.createdAt | date:'medium'}}</td>
+          <td>{{order.user.firstName}} {{order.user.username}}</td>
+          <td>{{order.totalPrice | currency: 'EUR'}}</td>
+          <td *ngIf="order.isPaid"><span class="text-primary">{{order.shippingPrice | currency: 'EUR'}}</span>
+          </td>
+          <td *ngIf="!order.isPaid">
+            {{order.shippingPrice | currency: 'EUR'}}
+          </td>
+          <td *ngIf="order.shippingPrice===5"><span class="text-info">Standard</span>
+          </td>
+          <td *ngIf="order.shippingPrice===10"><span class="text-warning">Fastest</span>
+          </td>
+          <td *ngIf="order.shippingPrice===0"><span class="text-primary">Free</span>
+          </td>
+          <td *ngIf="order.isSent">{{order.sentAt | date:'medium'}}
+          </td>
+          <td *ngIf="!order.isSent">
+            <fa-icon [icon]="faTimes"></fa-icon>
+          </td>
+          <td *ngIf="order.isDelivered">{{order.deliveredAt | date:'medium'}}
+          </td>
+          <td *ngIf="!order.isDelivered">
+            <fa-icon [icon]="faTimes"></fa-icon>
+          </td>
+          <td *ngIf="order.returnReceived">{{order.returnReceivedAt | date:'medium'}}
+          </td>
+          <td *ngIf="!order.returnReceived">
+            <fa-icon [icon]="faTimes"></fa-icon>
+          </td>
+          <td>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-info" title="View Delivery Note"
+                [routerLink]="['/buy/admin/delivery', order._id]">
+                <fa-icon [icon]="faSearch">
+                </fa-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ngb-pagination [collectionSize]="vm.orders && vm.orders.length" [(page)]="page" [pageSize]="pageSize"
+      class="d-flex justify-content-center"></ngb-pagination>
+
+    <table class="table table-hover text-center my-5" *ngIf="vm.orders && vm.statistics">
+      <thead>
+        <tr>
+          <th scope="col">Delivery Total</th>
+          <th scope="col">Orders Not Sent</th>
+          <th scope="col">Orders Dispatched</th>
+          <th scope="col">Orders Delivered</th>
+          <th scope="col">Standard Delivery</th>
+          <th scope="col">Fastest Delivery</th>
+          <th scope="col">Free Delivery</th>
+          <th scope="col">Return Received</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{vm.orders.length}} </td>
+          <td>{{vm.statistics.qtyNotSent }} </td>
+          <td>{{vm.statistics.qtySent }}</td>
+          <td>{{vm.statistics.qtyDelivered }} </td>
+          <td>{{vm.statistics.qtyStandard}}</td>
+          <td>{{vm.statistics.qtyFastest}} </td>
+          <td>{{vm.statistics.qtyFree }} </td>
+          <td>{{vm.statistics.qtyReturnReceived }} </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-template>
+</div>

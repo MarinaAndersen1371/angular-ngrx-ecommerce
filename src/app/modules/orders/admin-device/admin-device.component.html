@@ -1,0 +1,81 @@
+<div *ngIf="vm$ | async as vm">
+  <div *ngIf="vm.order">
+    <div class="row">
+      <div class="col-md-10">
+        <p class="my-3">Order placed on {{vm.order.createdAt | date:'medium'}}</p>
+      </div>
+      <div class="col-md-2">
+        <a class="btn btn-secondary col-md-12 my-2" [routerLink]="['/buy/admin/order',vm.order._id]" role="button">
+          Go to Order <fa-icon [icon]="faArrowRight"></fa-icon>
+        </a>
+      </div>
+    </div>
+    <h5 class="mb-5"><strong>Extra Device Protection Card # {{vm.order._id}}</strong></h5>
+    <div class="row">
+      <div class="col-md-5">
+        <div class="card my-4">
+          <div class="card-body">
+            <h5 class="card-title"><strong>From: </strong></h5>
+            <p> <strong>Name: </strong><span class="name"> MarWebTrade Center</span>
+            </p>
+            <p><strong>Address: </strong><span class="address">Bahnhofstr.15, Freiburg</span> </p>
+            <p><span class="address1"> Freiburg 79111, Deutschland</span></p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2"></div>
+      <div class="col-md-5">
+        <div class="card my-4" *ngIf="vm.order.invoiceAddress">
+          <div class="card-body">
+            <h5 class="card-title"><strong>For: </strong></h5>
+            <p> <strong>Name: </strong><span class="name"> {{vm.order.invoiceAddress.name}}</span>
+            </p>
+            <p><strong>Address: </strong><span class="address">{{vm.order.invoiceAddress.address}},
+                {{vm.order.invoiceAddress.city}}</span> </p>
+            <p><span class="address1"> {{vm.order.invoiceAddress.postalCode}},
+                {{vm.order.invoiceAddress.country}}</span></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row my-5">
+        <table class="table table-hover text-center">
+          <thead>
+            <tr>
+              <th scope="col" class="device">Device</th>
+              <th scope="col">Quantity</th>
+              <th scope="col" class="cover">Cover Description</th>
+              <th scope="col">Price/Item</th>
+              <th scope="col">Total</th>
+              <th scope="col">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item  of vm.order.orderItems">
+              <td *ngIf="item.extra1 + item.extra2 > 0"><a [routerLink]="['/shopping/product-view', item._id]"
+                  title="View Product">{{item.name}}</a></td>
+              <td *ngIf="item.extra1 + item.extra2 > 0">{{item.quantity}}</td>
+              <td *ngIf="item.extra1 > 0">
+                <p><strong>1-year Extra Device Protection:</strong></p>
+                <p>This cover protects your product from accident mechanical and electrical breakdowns damage from
+                  the purchase (from the day you receive your product) for 1 year.</p>
+              </td>
+              <td *ngIf="item.extra2 > 0">
+                <p><strong>2-year Extra Device Protection:</strong></p>
+                <p>Up to 2 years of coverage against accidental damage (from the day you receive your product).</p>
+              </td>
+              <td *ngIf="item.extra1 > 0">€4.00</td>
+              <td *ngIf="item.extra2 > 0">€5.00</td>
+              <td *ngIf="item.extra1 + item.extra2 > 0">{{
+                (item.extra1 + item.extra2) * item.quantity | currency: 'EUR'}}</td>
+              <td *ngIf="(item.extra1 + item.extra2 > 0) && !vm.order.isExtra">Not Active
+              </td>
+              <td *ngIf="(item.extra1 + item.extra2 > 0) && vm.order.isExtra" class="text-success">Active from
+                {{vm.order.deliveredAt | date}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

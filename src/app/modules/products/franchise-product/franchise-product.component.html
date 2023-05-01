@@ -1,0 +1,41 @@
+<div class="row justify-content-center">
+  <div class="col-8 mt-4" *ngIf="vm$ | async as vm">
+    <h4>Product Details</h4>
+    <div class="row mt-4" *ngIf="vm.product">
+      <div class="col-md-5 col-lg-7">
+        <img class="card-img-top" src="{{vm.product.imageUrl}}" alt="Card image cap">
+        <div class="row my-3">
+          <div class="col-md-9">
+            <h5>Price: {{vm.product.price | currency: 'EUR' }}</h5>
+            <h5 *ngIf="vm.product.extra" class="text-info">Extra Device Protection</h5>
+          </div>
+          <div class="col-md-3">
+            <h5 *ngIf="vm.product.quantity > 0" class="text-success">
+              In Stock: {{ vm.product.quantity}}
+            </h5>
+            <h5 *ngIf="vm.product.quantity < 1" class="text-danger">
+              Out of Stock
+            </h5>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-7 col-lg-5">
+        <div class="card-body">
+          <h4>{{vm.product.name}}</h4>
+          <h5>Brand: {{vm.product.brand}}</h5>
+          <h5>Category: {{vm.product.category}}</h5>
+          <p>{{vm.product.description}} </p>
+        </div>
+        <div class="text-center">
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <button class="btn btn-success mx-2" [routerLink]="['/shopping/franchise-list']"
+              routerLinkActive="router-link-active">
+              <fa-icon [icon]="faArrowLeft"></fa-icon>
+              Back To List
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

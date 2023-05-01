@@ -1,0 +1,75 @@
+<div class="row justify-content-center">
+  <div class="col-8 my-4">
+    <h4>Edit Product</h4>
+    <form #f="ngForm" (ngSubmit)="onSubmit()">
+      <div class="form-group my-2">
+        <label for="productName">Product Name:</label>
+        <input type="text" class="form-control" name="name" required [(ngModel)]="model.name" id="productName">
+      </div>
+
+      <div class="form-group my-2">
+        <label for="productBrand">Brand:</label>
+        <input type="text" class="form-control" name="brand" required [(ngModel)]="model.brand" id="productBrand">
+      </div>
+
+      <div class="form-group my-2">
+        <label for="productCategory">Category:</label>
+        <input type="text" class="form-control" name="category" required [(ngModel)]="model.category"
+          id="productCategory">
+      </div>
+
+      <div class="form-group my-2">
+        <label for="productDescription">Description:</label>
+        <textarea class="form-control" id="productDescription" name="description" required
+          [(ngModel)]="model.description"></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="pricePurchase">Purchase Price:</label>
+          <input type="text" (keypress)="keyPressNumbersWithDecimal($event)" class="form-control" name="pricePurchase"
+            required [(ngModel)]="model.pricePurchase" id="pricePurchase">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <label for="productPrice">Price:</label>
+          <input type="text" (keypress)="keyPressNumbersWithDecimal($event)" class="form-control" name="price" required
+            [(ngModel)]="model.price" id="productPrice">
+        </div>
+
+        <div class="form-group col-md-6">
+          <label for="productQuantity">Quantity:</label>
+          <input type="text" (keypress)="keyPressNumbers($event)" class="form-control" name="quantity" required
+            [(ngModel)]="model.quantity" id="productQuantity">
+        </div>
+
+        <div class="form-group col-md-6 my-2">
+          <div class="row">
+            <div class="col-10"> <label>Extra Device Protection:</label></div>
+            <div class="col-2 form-check">
+              <input type="checkbox" [checked]="model.extra" (change)="model.extra = !model.extra" required
+                class="form-check-input">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group my-2">
+        <label for="productImageUrl">Image Url:</label>
+        <input type="text" class="form-control" id="productImageUrl" required name="imageUrl"
+          [(ngModel)]="model.imageUrl">
+      </div>
+
+      <button class="btn btn-success" [routerLink]="['/shopping/product-list']">
+        <fa-icon [icon]="faArrowLeft"></fa-icon> Back To
+        List
+      </button>
+      <button class="btn btn-warning mx-2" type="submit">Edit Product
+        <fa-icon [icon]="faEdit">
+        </fa-icon>
+      </button>
+    </form>
+  </div>
+</div>

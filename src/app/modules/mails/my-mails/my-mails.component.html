@@ -1,0 +1,69 @@
+<div *ngIf="vm$ | async as vm">
+  <div *ngIf="vmUser$ | async as vmUser" class="row">
+    <div class="row">
+      <div class="col-2 my-5 py-5">
+        <a class="btn btn-info col-md-12 my-2" [routerLink]="['/auth/sent-mail']" role="button">
+          New Mail
+        </a>
+        <a class="btn btn-info col-md-12 my-2 disabled" role="button">
+          Incoming Mails
+        </a>
+        <a class="btn btn-info col-md-12 my-2" [routerLink]="['/auth/sent-mails']" role="button">
+          Sent Mails
+        </a>
+      </div>
+      <div class="col-1 my-5"></div>
+      <div class="col-7 my-5">
+        <h3 class="text-center mb-4"><strong>Incoming Mails:
+          </strong></h3>
+        <div class="row" *ngIf="vm.mails &&  vm.mails.length < 1; else showTableBlock">
+          <div class="col-6 offset-3 text-center">
+            <div class="empty-cart-list-icon">
+              <fa-icon [icon]="faEdit"></fa-icon>
+            </div>
+            <h5>No Mails to show</h5>
+          </div>
+        </div>
+
+        <ng-template #showTableBlock>
+          <table class="table table-hover text-center" *ngIf="vm.mails && vmUser.email">
+            <thead>
+              <tr>
+                <th scope="col">Date</th>
+                <th scope="col">From</th>
+                <th scope="col">Subject</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let mail of vm.mails">
+                <td *ngIf="mail.mailTarget && mail.mailTarget === vmUser.email && !mail.deletedIn"><span
+                    [ngStyle]="{'font-weight': !mail.open && 'bold'}">
+                    {{mail.createdAt | date}}</span>
+                </td>
+                <td *ngIf="mail.mailTarget && mail.mailTarget === vmUser.email && !mail.deletedIn">
+                  <span [ngStyle]="{'font-weight': !mail.open && 'bold'}">{{mail.user.firstName}}
+                    {{mail.user.username}}</span>
+                </td>
+                <td *ngIf="mail.mailTarget && mail.mailTarget === vmUser.email && !mail.deletedIn" class="mail"><a
+                    [routerLink]="['/auth/mail', mail._id]" title="View Mail" (click)="openMail(mail._id)"
+                    [ngStyle]="{'font-weight': !mail.open && 'bold'}">{{mail.subject}}</a>
+                </td>
+                <td *ngIf="mail.mailTarget && mail.mailTarget === vmUser.email && !mail.deletedIn">
+                  <button type="button" class="btn btn-info">
+                    <fa-icon [icon]="faStar" [ngClass]="{'text-warning': mail.status === true}"
+                      (click)="statusMail(mail._id)"></fa-icon>
+                  </button>
+                  <button type="button" class="btn btn-danger" title="Delete Mail" (click)="deleteMailIn(mail._id)">
+                    <fa-icon [icon]="faTrash"></fa-icon>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-template>
+      </div>
+      <div class="col-1 my-5"></div>
+    </div>
+  </div>
+</div>

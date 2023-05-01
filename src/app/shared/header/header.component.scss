@@ -1,0 +1,31 @@
+li,
+a {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+li {
+  list-style: none;
+}
+
+.information {
+  color: silver !important;
+  font-size: 1.1rem;
+  margin: 0 0.5rem;
+}
+
+.information:hover {
+  color: white !important;
+}
+
+@media (min-width: 995px) {
+  .togglebutton {
+    display: none !important;
+  }
+}
+
+@media (max-width: 995px) {
+  .information {
+    display: none !important;
+  }
+}

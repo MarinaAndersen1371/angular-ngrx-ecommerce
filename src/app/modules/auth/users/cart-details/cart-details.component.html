@@ -1,0 +1,160 @@
+<form #f="ngForm" (ngSubmit)="onSubmit(f)">
+  <p class="text-danger my-2">Please fill out all fields</p>
+  <div class="row">
+    <div class="col-md-4">
+      <h5><strong>Shipping Address</strong></h5>
+      <div class="form-group">
+        <label>Name:</label>
+        <input type="text" name="name" ngModel #name="ngModel" required id="name" class="form-control"
+          placeholder="Enter Name">
+        <div *ngIf="name.invalid && (name.dirty || name.touched)">
+          <div class="text-danger" *ngIf="name.errors?.['required']">
+            Name required
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Address:</label>
+        <input type="text" name="address" ngModel #address="ngModel" required id="address" class="form-control"
+          placeholder="Enter Address">
+        <div *ngIf="address.invalid && (address.dirty || address.touched)">
+          <div class="text-danger" *ngIf="address.errors?.['required']">
+            Address required
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>City:</label>
+        <input type="text" name="city" ngModel #city="ngModel" required id="city" class="form-control"
+          placeholder="Enter City">
+        <div *ngIf="city.invalid && (city.dirty || city.touched)">
+          <div class="text-danger" *ngIf="city.errors?.['required']">
+            City required
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Postal Code:</label>
+        <input type="text" name="postalCode" ngModel #postalCode="ngModel" required id="postalCode" class="form-control"
+          placeholder="Enter Postal Code">
+        <div *ngIf="postalCode.invalid && (postalCode.dirty || postalCode.touched)">
+          <div class="text-danger" *ngIf="postalCode.errors?.['required']">
+            Postal Code required
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Country:</label>
+        <input type="text" name="country" ngModel #country="ngModel" required id="country" class="form-control"
+          placeholder="Enter Country">
+        <div *ngIf="country.invalid && (country.dirty || country.touched)">
+          <div class="text-danger" *ngIf="country.errors?.['required']">
+            Country required
+          </div>
+        </div>
+      </div>
+      <h5 class="my-2"><strong>Choose Shipping type</strong></h5>
+      <div class="form-group">
+        <p> <input type="radio" name="delivery" ngModel #delivery="ngModel" required value="Standard" class="mx-2">
+          Standard
+          Delivery / €5.00 <br>
+          (on total amount over $800 Standard Delivery is free)</p>
+        <p><input type="radio" name="delivery" ngModel #delivery required value="Fastest" class="mx-2"> Fastest
+          Delivery
+          / €10.00
+          <br>(within 24 hours)
+        </p>
+      </div>
+    </div>
+    <div class="col-md-2">
+    </div>
+
+    <div class="col-md-4">
+      <h5><strong>Invoice Address</strong></h5>
+      <div class="form-group">
+        <label>Name:</label>
+        <input type="text" name="nameInvoice" ngModel #nameInvoice="ngModel" required id="nameInvoice"
+          class="form-control" placeholder="Enter Name">
+        <div *ngIf="nameInvoice.invalid && (nameInvoice.dirty || nameInvoice.touched)">
+          <div class="text-danger" *ngIf="nameInvoice.errors?.['required']">
+            Name required
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Address:</label>
+        <input type="text" name="addressInvoice" ngModel #addressInvoice="ngModel" required id="addressInvoice"
+          class="form-control" placeholder="Enter Address">
+        <div *ngIf="addressInvoice.invalid && (addressInvoice.dirty || addressInvoice.touched)">
+          <div class="text-danger" *ngIf="addressInvoice.errors?.['required']">
+            Address required
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>City:</label>
+        <input type="text" name="cityInvoice" ngModel #cityInvoice="ngModel" required id="cityInvoice"
+          class="form-control" placeholder="Enter City">
+        <div *ngIf="cityInvoice.invalid && (cityInvoice.dirty || cityInvoice.touched)">
+          <div class="text-danger" *ngIf="cityInvoice.errors?.['required']">
+            City required
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Postal Code:</label>
+        <input type="text" name="postalCodeInvoice" ngModel #postalCodeInvoice="ngModel" required id="postalCodeInvoice"
+          class="form-control" placeholder="Enter Postal Code">
+        <div *ngIf="postalCodeInvoice.invalid && (postalCodeInvoice.dirty || postalCodeInvoice.touched)">
+          <div class="text-danger" *ngIf="postalCodeInvoice.errors?.['required']">
+            Postal Code required
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Country:</label>
+        <input type="text" name="countryInvoice" ngModel #countryInvoice="ngModel" required id="countryInvoice"
+          class="form-control" placeholder="Enter Country">
+        <div *ngIf="countryInvoice.invalid && (countryInvoice.dirty || countryInvoice.touched)">
+          <div class="text-danger" *ngIf="countryInvoice.errors?.['required']">
+            Country required
+          </div>
+        </div>
+      </div>
+      <h5 class="mt-2"><strong>Payment</strong></h5>
+      <div class="form-group">
+        <p>Payment Method:<br>
+          <input type="radio" name="method" ngModel #method="ngModel" required value="PayPal" class="mx-2"> PayPal
+          <input type="radio" name="method" ngModel #method="ngModel" required value="Visa" class="mx-2"> Visa
+          <input type="radio" name="method" ngModel #method="ngModel" required value="MasterCard" class="mx-2">
+          MasterCard
+        </p>
+      </div>
+      <div class="form-group">
+        <label>Card Number:</label>
+        <input type="text" name="account" ngModel #account="ngModel" required id="account" class="form-control"
+          placeholder="Enter Card Number">
+        <div *ngIf="account.invalid && (account.dirty || account.touched)">
+          <div class="text-danger" *ngIf="account.errors?.['required']">
+            Card Number required
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row my-3">
+    <div class="col-md-3"></div>
+    <div class="col-md-2">
+      <button type="button" class="btn btn-secondary col-12" [routerLink]="['/auth/usercart', _id]"
+        routerLinkActive="router-link-active">
+        <fa-icon [icon]="faArrowLeft"></fa-icon> Go Back to Cart
+      </button>
+    </div>
+    <div class="col-md-2"><button type="submit" class="btn btn-secondary col-12"
+        [disabled]="f.form.invalid || f.value.name && f.value.name.trim() === '' || f.value.address && f.value.address.trim() ==='' || f.value.postalCode && f.value.postalCode.trim() === '' || f.value.city && f.value.city.trim() === '' || f.value.country && f.value.country.trim() === '' || f.value.delivery && f.value.delivery === '' || f.value.nameInvoice && f.value.nameInvoice.trim() === '' || f.value.addressInvoice && f.value.addressInvoice.trim() ==='' || f.value.postalCodeInvoice && f.value.postalCodeInvoice.trim() === '' || f.value.cityInvoice && f.value.cityInvoice.trim() === '' || f.value.countryInvoice && f.value.countryInvoice.trim() === '' || f.value.account && f.value.account.trim() ==='' || f.value.method && f.value.method ===''">
+        Proceed to Checkout <fa-icon [icon]="faArrowRight"></fa-icon>
+      </button>
+    </div>
+    <div class="col-md-5"></div>
+  </div>
+</form>

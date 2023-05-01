@@ -1,0 +1,69 @@
+<div class="row" *ngIf="vm$ | async as vm">
+  <h3 class="text-center my-5"><strong>Ticket Details</strong></h3>
+
+  <div *ngIf="vm.ticket">
+    <div class="row">
+      <div class="col-4">
+        <div class="card border-info mb-3">
+          <div class="card-header">
+            <p><strong>Ticket ID: </strong> {{vm.ticket._id}}</p>
+            <p><strong>Created at: </strong> {{vm.ticket.createdAt | date:'medium'}}</p>
+            <p><strong>Status: </strong><span *ngIf="vm.ticket.status==='New'" class="text-primary">New</span>
+              <span *ngIf="vm.ticket.status==='On hold'" class="text-danger">On hold</span>
+              <span *ngIf="vm.ticket.status==='Closed'" class="text-info">Closed</span>
+            </p>
+          </div>
+          <div class="card-header">
+            <h5><strong>Request from:</strong></h5>
+            <p><strong>Client Name: </strong> {{vm.ticket.name}}</p>
+            <p><strong>Email Address: </strong> {{vm.ticket.email}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-8">
+        <div class="card border-info mb-3">
+          <h5 class="text-center my-3"><strong>Client Request:</strong> </h5>
+          <p class="mx-4"> {{vm.ticket.message}}</p>
+        </div>
+        <div class="card border-info mb-3">
+          <h5 class="text-center my-3"><strong>Comment from Manager:</strong> </h5>
+          <p class="mx-4"> {{vm.ticket.commentManager}}</p>
+        </div>
+        <div class="card border-info mb-3">
+          <h5 class="text-center my-3"><strong>Comment from Admin:</strong> </h5>
+          <p class="mx-4"> {{vm.ticket.commentAdmin}}</p>
+        </div>
+        <button *ngIf="!vm.ticket.open" type="button" class="btn btn-info mx-1" [routerLink]="['/ticket-list']">
+          <fa-icon [icon]="faArrowLeft" type="button"></fa-icon> Back To
+          List
+        </button>
+        <button *ngIf="!vm.ticket.open" type="button" class="btn btn-info " (click)="openTicket()">
+          Open Ticket <fa-icon [icon]="faEdit" type="button"></fa-icon>
+        </button>
+
+        <form #f="ngForm" *ngIf="vm.ticket.open" (ngSubmit)="onSubmit(f)">
+          <div class="row">
+            <div class="col-8 mb-3 form-group">
+              <label for="commentAdmin">Add Comment</label>
+              <textarea class="form-control" id="commentAdmin" name="commentAdmin" required
+                [(ngModel)]="commentAdmin"></textarea>
+              <button type="submit" class="btn btn-info my-1" [disabled]="+timeAdmin < 0">
+                Update Comment
+              </button>
+            </div>
+            <div class="col-2">
+              <label for="timeAdmin">Time(min)</label>
+              <input type="number" class="form-control" min="0" id="timeAdmin" name="timeAdmin" required
+                [(ngModel)]="timeAdmin">
+            </div>
+            <div class="col-2">
+              <label for="status">Select Status</label>
+              <select name="status" id="status" [(ngModel)]="ngSelectStatus" class="form-control form-select">
+                <option value="New">New</option>
+                <option value="On hold">On hold</option>
+                <option value="Closed">Closed</option>
+              </select>
+            </div>
+          </div>
+        </form>
+      </div>

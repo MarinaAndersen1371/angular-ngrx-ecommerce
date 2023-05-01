@@ -1,0 +1,139 @@
+<div class="cart-list" *ngIf="vm$ | async as vm">
+  <h3 class="row my-4">My Order Details</h3>
+  <div class="row" *ngIf="vm.user.cart &&  vm.user.cart.length < 1; else showTableBlock">
+    <p>Order Is Empty</p>
+  </div>
+
+  <ng-template #showTableBlock>
+    <div class="row">
+      <table class="table table-hover text-center">
+        <thead>
+          <tr>
+            <th scope="col">Image</th>
+            <th scope="col">Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price/Item</th>
+            <th scope="col">Discount/ Item</th>
+            <th scope="col">Warranty/ Item</th>
+            <th scope="col">Protection/ Item</th>
+            <th scope="col">Gift Package</th>
+            <th scope="col">Total/Item</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product  of vm.user.cart ">
+            <th scope="row"><span class="cart-list-image"><img src="{{product.imageUrl}}"></span></th>
+            <td>{{product.name}}</td>
+            <td>{{product.quantity}}</td>
+            <td>{{product.price | currency:
+              'EUR'}}</td>
+            <td *ngIf="product.discount > 0">-{{(product.price *
+              product.discount) | currency:
+              'EUR'}}</td>
+            <td *ngIf="product.discount === 0">€0.00</td>
+            <td>{{(product.price * product.warranty) | currency:
+              'EUR'}}</td>
+            <td>{{(product.extra1 + product.extra2) | currency:
+              'EUR'}}</td>
+            <td>{{product.gift | currency:
+              'EUR'}}</td>
+            <td>{{ (product.price * product.quantity -
+              product.price * product.quantity * product.discount +
+              product.price * product.quantity * product.warranty +
+              (product.extra1 + product.extra2) * product.quantity +
+              product.gift) | currency: 'EUR'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="row mb-5">
+      <div class="col-6">
+        <div class="card my-4">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <h5 class="card-title"><strong>Shipping Address</strong></h5>
+                <p> <strong>Name: </strong><span class="name"> {{name}}</span>
+                </p>
+                <p><strong>Address: </strong> {{address}}, {{city}}</p>
+                <span class="address">
+                  <p> {{postalCode}}, {{country}}</p>
+                </span>
+              </div>
+              <div class="col-md-6">
+                <h5 class="card-title"><strong>Invoice Address</strong></h5>
+                <p> <strong>Name: </strong><span class="name"> {{nameInvoice}}</span>
+                </p>
+                <p><strong>Address: </strong> {{addressInvoice}}, {{cityInvoice}}</p>
+                <span class="address">
+                  <p> {{postalCodeInvoice}}, {{countryInvoice}}</p>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"><strong>Payment</strong></h5>
+            <p><strong>Payment Method:</strong> {{method}}</p>
+            <p><strong>Account ending in:</strong>
+              ****{{account.substring(account.length-4,
+              account
+              )}}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-1"></div>
+      <div class="col-5">
+        <div class="card my-5">
+          <div class="card-body">
+            <h5 class="card-title mb-4"><strong>My Order Summary</strong></h5>
+            <p><strong class="subtotal">Items Subtotal:</strong> {{vm.user.subtotal | currency: 'EUR'}}</p>
+            <p *ngIf="delivery === 10"><strong class="shipping">Shipping Fee:</strong>€10.00</p>
+            <p *ngIf="delivery === 5 && (vm.user.subtotal > 800 || primePrice > 0 || vm.user.isPrime)"><strong
+                class="shipping">Shipping
+                Fee:</strong>€00.00</p>
+            <p *ngIf="delivery === 5 && vm.user.subtotal <= 800 && primePrice === 0 && !vm.user.isPrime"><strong
+                class="shipping">Shipping Fee:</strong>€5.00</p>
+            <p *ngIf="primePrice > 0"><strong class="prime">Premium Subscription Fee:</strong> €70.00</p>
+            <p *ngIf="franchisePrice > 0"><strong class="franchise">Franchising System Fee::</strong> €500.00</p>
+            <p *ngIf="delivery === 10"><strong class="tax">Tax Rate (15%):</strong> {{(vm.user.subtotal + 10 +
+              primePrice + franchisePrice)*0.15 | currency: 'EUR'}}</p>
+            <p *ngIf="delivery === 5 && (vm.user.subtotal > 800 || primePrice > 0 || vm.user.isPrime)"><strong
+                class="tax">Tax Rate
+                (15%):</strong> {{(vm.user.subtotal + primePrice + franchisePrice)*0.15 | currency: 'EUR'}}</p>
+            <p *ngIf="delivery === 5 && vm.user.subtotal <= 800 && primePrice === 0 && !vm.user.isPrime"><strong
+                class="tax">Tax Rate
+                (15%):</strong> {{(vm.user.subtotal + 5 + primePrice + franchisePrice)*0.15 | currency: 'EUR'}}</p>
+            <p *ngIf="delivery === 10"><strong class="price">TOTAL:</strong> {{((vm.user.subtotal + 10 + primePrice +
+              franchisePrice )*0.15 + vm.user.subtotal + 10 + primePrice + franchisePrice) | currency:
+              'EUR'}}</p>
+            <p *ngIf="delivery === 5 && (vm.user.subtotal > 800 || primePrice > 0 || vm.user.isPrime)"><strong
+                class="price">TOTAL:</strong> {{((vm.user.subtotal + primePrice + franchisePrice )*0.15 +
+              vm.user.subtotal + primePrice + franchisePrice) | currency:
+              'EUR'}}</p>
+            <p *ngIf="delivery === 5 && vm.user.subtotal <= 800 && primePrice === 0 && !vm.user.isPrime"><strong
+                class="price">TOTAL:</strong> {{((vm.user.subtotal + 5 + primePrice + franchisePrice )*0.15 +
+              vm.user.subtotal + 5 + primePrice + franchisePrice) | currency:
+              'EUR'}}</p>
+          </div>
+        </div>
+        <div class="row my-5">
+          <div class="col-4"><button class="btn btn-secondary" [routerLink]="['/auth/usercart', vm.user._id]"
+              routerLinkActive="router-link-active">
+              <fa-icon [icon]="faArrowLeft"></fa-icon> Back to Cart
+            </button></div>
+
+          <div class="col-4"><button type="button" class="btn btn-secondary" (click)="placeOrder()"
+              routerLinkActive="router-link-active">
+              Place Order <fa-icon [icon]="faArrowRight"></fa-icon>
+            </button></div>
+          <div class="col-4"></div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</div>

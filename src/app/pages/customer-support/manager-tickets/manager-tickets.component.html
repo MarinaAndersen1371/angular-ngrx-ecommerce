@@ -1,0 +1,82 @@
+<div *ngIf="vm$ | async as vm">
+  <h3 class="mt-4 mb-4">Client Request List</h3>
+
+  <div class="row" *ngIf="vm.tickets &&  vm.tickets.length < 1; else showTableBlock">
+    <div class="col-6 offset-3 text-center">
+      <div class="empty-cart-list-icon">
+        <fa-icon [icon]="faBoxOpen"></fa-icon>
+      </div>
+      <h5>No Data to show</h5>
+    </div>
+  </div>
+
+  <ng-template #showTableBlock>
+    <table class="table table-hover text-center" *ngIf="vm.tickets">
+      <thead>
+        <tr>
+          <th>Ticket ID</th>
+          <th>Created At</th>
+          <th>Client Name</th>
+          <th>Modified On</th>
+          <th>Modified By</th>
+          <th>Booked Time (Admin)</th>
+          <th>Booked Time (Manager)</th>
+          <th>Booked Time (Total)</th>
+          <th>Ticket Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let ticket of vm.tickets">
+          <td>{{ticket._id}}</td>
+          <td>{{ticket.createdAt | date:'medium'}}</td>
+          <td>{{ticket.name}}</td>
+          <td>{{ticket.lastModified | date:'medium'}}</td>
+          <td>{{ticket.modifiedBy}}</td>
+          <td>{{ticket.timeAdmin}}</td>
+          <td>{{ticket.timeManager}}</td>
+          <td>{{+ticket.timeAdmin + +ticket.timeManager}}</td>
+          <td *ngIf="ticket.status==='New'" class="text-primary">New</td>
+          <td *ngIf="ticket.status==='On hold'" class="text-danger">On hold</td>
+          <td *ngIf="ticket.status==='Closed'" class="text-info">Closed</td>
+          <td>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-info" title="View Ticket"
+                [routerLink]="['/manager/ticket', ticket._id]">
+                <fa-icon [icon]="faSearch"></fa-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <table class="table table-hover text-center my-5" *ngIf="vm.tickets && vm.statistics">
+      <thead>
+        <tr>
+          <th scope="col">Total Tickets</th>
+          <th scope="col">Status "New"</th>
+          <th scope="col">Status "On Hold"</th>
+          <th scope="col">Status "Closed"</th>
+          <th scope="col">Modified By Admin</th>
+          <th scope="col">Modified By Manager</th>
+          <th scope="col">Booked Time (Admin)</th>
+          <th scope="col">Booked Time (Manager)</th>
+          <th scope="col">Booked Time (Total)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{vm.tickets.length}} </td>
+          <td>{{vm.statistics.qtyNew}} </td>
+          <td>{{vm.statistics.qtyOnHold}} </td>
+          <td>{{vm.statistics.qtyClosed}}</td>
+          <td>{{vm.statistics.qtyAdmin}} </td>
+          <td>{{vm.statistics.qtyManager}}</td>
+          <td>{{vm.statistics.timeAdmin}}</td>
+          <td>{{vm.statistics.timeManager}} </td>
+          <td>{{+vm.statistics.timeAdmin + +vm.statistics.timeManager}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-template>
+</div>

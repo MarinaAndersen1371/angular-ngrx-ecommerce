@@ -1,0 +1,97 @@
+<div>
+  <button class="btn btn-warning mx-2 my-5" [routerLink]="['/auth/manager/user-list']">
+    <fa-icon [icon]="faArrowLeft" type="button"></fa-icon> To User List
+  </button>
+  <button class="btn btn-info" [routerLink]="['/auth/manager/user', userId]">
+    To User View <fa-icon [icon]="faArrowRight" type="button"></fa-icon>
+  </button>
+  <h5><strong>User Name: {{model.username}} {{model.firstName}}</strong></h5>
+  <div class="row">
+    <div class=" col-md-6 my-5">
+      <div class="card border-info my-2">
+        <div class="card-header">
+          <h4>Update Test Score (%)</h4>
+        </div>
+        <div class="card-body border-info">
+          <form #f="ngForm" (ngSubmit)="updateTestScore()">
+            <div class="form-group my-3 ">
+              <div class="row">
+                <div class="col-3"></div>
+                <div class="col-5">
+                  <input type="text" name="coupon" [(ngModel)]="model.testScore" required id="coupon"
+                    class="form-control">
+                </div>
+                <div class="col-4">
+                  <button class="btn btn-info" type="submit"
+                    [disabled]="+model.testScore < 0 || +model.testScore > 100">Update Test Score
+                    <fa-icon [icon]="faEdit">
+                    </fa-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="card border-info my-4">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-8">
+              <h4>Reset Password</h4>
+            </div>
+            <div class="col-md-4"> <button class="btn btn-warning" type="button" (click)="resetPassword()">
+                <fa-icon [icon]="faLock">
+                </fa-icon> Confirm Reset
+              </button></div>
+          </div>
+        </div>
+        <div class="alert alert-dismissible alert-success my-3" *ngIf="reset">
+          <button type="button" class="btn-close" data-bs-dismiss="alert" (click)="reset = false"></button>Temporary
+          password <strong> "123456"</strong> has been
+          sent to
+          <strong> {{model.email}}!</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 my-5">
+      <div class="card border-info my-2">
+        <div class="card-header">
+          <h4>Update Coupon</h4>
+        </div>
+        <div class="card-body border-info">
+          <form #f1="ngForm" (ngSubmit)="updateUserCoupon()">
+            <div class="form-group my-3 ">
+              <div class="row">
+                <div class="col-3"></div>
+                <div class="col-4">
+                  <input type="text" name="coupon" [(ngModel)]="model.coupon" required id="coupon" class="form-control">
+                </div>
+                <div class="col-5">
+                  <button class="btn btn-warning" type="submit" [disabled]="!model.isPrime">Update Coupon
+                    <fa-icon [icon]="faEdit">
+                    </fa-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-6">
+              <button type="button" class="btn btn-info" (click)="onClick()">
+                <fa-icon [icon]="faEnvelopeSquare">
+                </fa-icon> Generate Coupon
+              </button>
+            </div>
+            <div class="col-md-6"><strong class="text-success">
+                <h4>{{generatedCoupon}}</h4>
+              </strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

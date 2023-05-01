@@ -1,0 +1,57 @@
+<div>
+  <h2 class="my-4 text-center">Customer Support</h2>
+  <div class="row">
+    <div class="col-2">
+    </div>
+    <div class="col-7">
+      <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+        <div class="row mt-5">
+          <div class="form-group col-md-6">
+            <label>Name:</label>
+            <input type="text" class="form-control" id="name" name="name" ngModel placeholder="Enter Name" required
+              #name="ngModel" minlength="4">
+            <div *ngIf="name.invalid && (name.dirty || name.touched)">
+              <div class="text-danger" *ngIf="name.errors?.['required']">
+                Name required
+              </div>
+              <div *ngIf="name.errors?.['minlength']" class="text-danger">
+                Name must be at least 4 characters long.
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label>Email Address:</label>
+            <input type="email" class="form-control" id="email" name="email" ngModel #email="ngModel" required
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" placeholder="Enter Email Address">
+            <div *ngIf="email.invalid && (email.dirty || email.touched)">
+              <div class="text-danger" *ngIf="email.errors?.['required']">
+                Email Address required
+              </div>
+              <div class="text-danger" *ngIf="email.errors?.['pattern']">
+                Email is not valid
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group my-3">
+          <label>Message:</label>
+          <textarea class="form-control" id="message" ngModel name="message" rows="3" required minlength="10"
+            #message="ngModel" placeholder="Enter Message"></textarea>
+          <div *ngIf="message.invalid && (message.dirty || message.touched)">
+            <div class="text-danger" *ngIf="message.errors?.['required']">
+              Please leave your Message
+            </div>
+            <div *ngIf="message.errors?.['minlength']" class="text-danger">
+              Message must be at least 10 characters long.
+            </div>
+          </div>
+        </div>
+        <div class="mt-5">
+          <button type="submit" class="btn btn-secondary" [disabled]="!f.form.valid">Send Message </button>
+        </div>
+      </form>
+    </div>
+    <div class="col-3">
+      <h4 class="mt-2 red">We are here to help!</h4>
+    </div>
+  </div>

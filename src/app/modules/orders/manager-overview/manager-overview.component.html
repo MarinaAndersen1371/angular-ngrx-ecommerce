@@ -1,0 +1,148 @@
+<div *ngIf="vm$ | async as vm">
+  <h3 class="my-4 text-center">Overview</h3>
+  <div class="row" *ngIf="vm.orders &&  vm.orders.length < 1; else showTableBlock">
+    <div class="col-6 offset-3 text-center">
+      <div class="empty-cart-list-icon">
+        <fa-icon [icon]="faBoxOpen"></fa-icon>
+      </div>
+      <h5>No Data to show</h5>
+    </div>
+  </div>
+
+  <ng-template #showTableBlock>
+    <div class="row" *ngIf="vm.orders && vm.statistics">
+      <div class="col-md-6">
+        <table class="table table-hover text-center my-3">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Total</th>
+              <th scope="col">Not Paid</th>
+              <th scope="col">Paid</th>
+            </tr>
+          </thead>
+          <tbody>
+            <th scope="col">Orders Quantity</th>
+            <td>{{vm.orders.length}} </td>
+            <td>{{vm.statistics.qtyNotPaid}} </td>
+            <td>{{vm.statistics.qtyPaid}}</td>
+          </tbody>
+          <tbody>
+            <th scope="col">Items Amount</th>
+            <td>{{+vm.statistics.totalItemsNotPaid + +vm.statistics.totalItemsPaid | currency: 'EUR'}}</td>
+            <td>{{vm.statistics.totalItemsNotPaid | currency: 'EUR'}}</td>
+            <td>{{vm.statistics.totalItemsPaid | currency: 'EUR'}}</td>
+          </tbody>
+          <tbody>
+            <th scope="col">Shipping Fee</th>
+            <td>{{+vm.statistics.shippingNotPaid + +vm.statistics.shippingPaid | currency: 'EUR'}}</td>
+            <td>{{vm.statistics.shippingNotPaid | currency: 'EUR'}} </td>
+            <td>{{vm.statistics.shippingPaid | currency: 'EUR'}} </td>
+          </tbody>
+          <tbody>
+            <th scope="col">Total Amount</th>
+            <td>{{+vm.statistics.totalPriceNotPaid + +vm.statistics.totalPricePaid | currency: 'EUR'}}</td>
+            <td>{{vm.statistics.totalPriceNotPaid | currency: 'EUR'}}</td>
+            <td class="text-primary">{{vm.statistics.totalPricePaid | currency: 'EUR'}} </td>
+          </tbody>
+          <tbody>
+            <th scope="col">Total Cost</th>
+            <td>{{+vm.statistics.costNotPaid + +vm.statistics.costPaid | currency: 'EUR'}}</td>
+            <td>{{vm.statistics.costNotPaid | currency: 'EUR'}}</td>
+            <td class="text-danger">
+              {{vm.statistics.costPaid| currency: 'EUR'}}
+            </td>
+          </tbody>
+          <tbody>
+            <th scope="col">Tax Rate (15%)</th>
+            <td>{{+vm.statistics.taxNotPaid + +vm.statistics.taxPaid | currency: 'EUR'}}</td>
+            <td>{{vm.statistics.taxNotPaid | currency: 'EUR'}}</td>
+            <td class="text-danger">{{vm.statistics.taxPaid | currency: 'EUR'}}</td>
+          </tbody>
+          <tbody>
+            <th scope="col">Total Return</th>
+            <td>{{+vm.statistics.totalReturnNotPaid + +vm.statistics.totalReturnPaid | currency: 'EUR'}}</td>
+            <td>{{vm.statistics.totalReturnNotPaid | currency: 'EUR'}}</td>
+            <td class="text-danger">{{vm.statistics.totalReturnPaid | currency:
+              'EUR'}}</td>
+          </tbody>
+          <tbody>
+            <th scope="col">Tax Return (15%)</th>
+            <td>{{+vm.statistics.totalTaxReturnNotPaid + +vm.statistics.totalTaxReturnPaid | currency: 'EUR'}}</td>
+            <td>{{vm.statistics.totalTaxReturnNotPaid | currency: 'EUR'}}</td>
+            <td class="text-primary">{{vm.statistics.totalTaxReturnPaid | currency: 'EUR'}}</td>
+          </tbody>
+          <tbody>
+            <th scope="col">Revenue</th>
+            <td></td>
+            <td></td>
+            <td class="text-success">{{+vm.statistics.totalPricePaid -
+              +vm.statistics.costPaid -
+              +vm.statistics.taxPaid - +vm.statistics.totalReturnPaid + +vm.statistics.totalTaxReturnPaid | currency:
+              'EUR'}}</td>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-md-1"></div>
+      <div class="col-md-5">
+        <table class="table table-hover text-center my-3">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Active</th>
+              <th scope="col">Closed</th>
+              <th scope="col">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <th scope="col">Return</th>
+            <td>{{vm.statistics.qtyReturn}} </td>
+            <td>{{vm.statistics.qtyReturnActive}} </td>
+            <td>{{vm.statistics.qtyReturnClosed}} </td>
+            <td class="text-danger">{{+vm.statistics.totalReturnNotPaid + +vm.statistics.totalReturnPaid | currency:
+              'EUR'}}</td>
+          </tbody>
+        </table>
+        <table class="table table-hover text-center mt-5">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Standard</th>
+              <th scope="col">Fastest</th>
+              <th scope="col">Free</th>
+              <th scope="col">Sent back</th>
+            </tr>
+          </thead>
+          <tbody>
+            <th scope="col">Delivery</th>
+            <td>{{vm.statistics.qtyStandard}} </td>
+            <td>{{vm.statistics.qtyFastest}} </td>
+            <td>{{vm.statistics.qtyFree}} </td>
+            <td>{{vm.statistics.qtyReturnReceived}} </td>
+          </tbody>
+        </table>
+
+        <table class="table table-hover text-center mt-5">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <th scope="col">Extra Device Protection</th>
+            <td>{{vm.statistics.qtyExtra}} </td>
+            <td>{{vm.statistics.totalExtraPrice | currency: 'EUR'}}</td>
+          </tbody>
+          <tbody>
+            <th scope="col">Gift Packages</th>
+            <td>{{vm.statistics.qtyGift}} </td>
+            <td>{{vm.statistics.totalGiftPrice | currency: 'EUR'}}</td>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-template>
+</div>

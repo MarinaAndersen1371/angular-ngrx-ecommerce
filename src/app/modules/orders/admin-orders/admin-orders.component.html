@@ -1,0 +1,119 @@
+<div *ngIf="vm$ | async as vm">
+  <h3 class="my-4">Order List</h3>
+  <div class="row" *ngIf="vm.orders &&  vm.orders.length < 1; else showTableBlock">
+    <div class="col-6 offset-3 text-center">
+      <div class="empty-cart-list-icon">
+        <fa-icon [icon]="faBoxOpen"></fa-icon>
+      </div>
+      <h5>No Orders to show</h5>
+    </div>
+  </div>
+
+  <ng-template #showTableBlock>
+    <table *ngIf="vm.orders" class="table table-hover text-center my-5">
+      <thead>
+        <tr>
+          <th scope="col">Order ID</th>
+          <th scope="col">Date</th>
+          <th scope="col">Customer Name</th>
+          <th scope="col">Items Cost </th>
+          <th scope="col">Items Subtotal</th>
+          <th scope="col">Shipping Fee</th>
+          <th scope="col">Tax Rate</th>
+          <th scope="col">Order Total</th>
+          <th scope="col">Order Paid</th>
+          <th scope="col">Delivery Status</th>
+          <th scope="col">Invoice Sent</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of vm.orders | slice: (page-1) * pageSize : page * pageSize">
+          <td>{{order._id}} </td>
+          <td>{{order.createdAt | date:'medium'}}</td>
+          <td>{{order.user.firstName}} {{order.user.username}}</td>
+          <td class="text-danger">{{order.itemsCost | currency: 'EUR'}}</td>
+          <td>{{order.itemsPrice | currency: 'EUR'}}</td>
+          <td>{{order.shippingPrice | currency: 'EUR'}}</td>
+          <td>{{order.taxPrice | currency: 'EUR'}}</td>
+          <td *ngIf="order.isPaid"><span class="text-primary">{{order.totalPrice | currency: 'EUR'}}</span>
+          </td>
+          <td *ngIf="!order.isPaid">
+            {{order.totalPrice | currency: 'EUR'}}
+          </td>
+          <td *ngIf="order.isPaid">{{order.paidAt | date:'medium'}}
+          </td>
+          <td *ngIf="!order.isPaid">
+            <fa-icon [icon]="faTimes"></fa-icon>
+          </td>
+          <td *ngIf="!order.isSent"><span class="text-warning"> Not Sent</span>
+          </td>
+          <td *ngIf="order.isSent && !order.isDelivered"><span class="text-info">Dispatched/ {{order.sentAt |
+              date:'medium'}}</span>
+          </td>
+          <td *ngIf="order.isDelivered"><span class="text-success">Delivered/ {{order.deliveredAt |
+              date:'medium'}}</span>
+          </td>
+          <td *ngIf="order.invoiceSent">{{order.invoiceAt | date:'medium'}}
+          </td>
+          <td *ngIf="!order.invoiceSent">
+            <fa-icon [icon]="faTimes"></fa-icon>
+          </td>
+          <td>
+            <div class="btn-group" role="group">
+              <button type="button" class="btn btn-info" title="View Order"
+                [routerLink]="['/buy/admin/order', order._id]">
+                <fa-icon [icon]="faSearch">
+                </fa-icon>
+              </button>
+              <button type="button" class="btn btn-warning" title="Edit Order"
+                [routerLink]="['/buy/order/edit', order._id]">
+                <fa-icon [icon]="faEdit">
+                </fa-icon>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ngb-pagination [collectionSize]="vm.orders && vm.orders.length" [(page)]="page" [pageSize]="pageSize"
+      class="d-flex justify-content-center"></ngb-pagination>
+
+
+    <table class="table table-hover text-center my-5" *ngIf="vm.orders && vm.statistics">
+      <thead>
+        <tr>
+          <th scope="col">Orders Qty</th>
+          <th scope="col">Orders Not Paid Qty</th>
+          <th scope="col">Orders Paid Qty </th>
+          <th scope="col">Total Cost</th>
+          <th scope="col">Total Amount</th>
+          <th scope="col">Total Not Paid</th>
+          <th scope="col">Total Paid</th>
+          <th scope="col">Items Not Paid</th>
+          <th scope="col">Items Paid</th>
+          <th scope="col">Tax Rate Not Paid</th>
+          <th scope="col">Tax Rate Paid</th>
+          <th scope="col">Shipping Fee Not Paid</th>
+          <th scope="col">Shipping Fee Paid</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{vm.orders.length}} </td>
+          <td>{{vm.statistics.qtyNotPaid}} </td>
+          <td>{{vm.statistics.qtyPaid}}</td>
+          <td>{{+vm.statistics.costNotPaid + +vm.statistics.costPaid | currency: 'EUR'}}</td>
+          <td>{{+vm.statistics.totalPriceNotPaid + +vm.statistics.totalPricePaid | currency: 'EUR'}}</td>
+          <td>{{vm.statistics.totalPriceNotPaid | currency: 'EUR'}} </td>
+          <td>{{vm.statistics.totalPricePaid | currency: 'EUR'}} </td>
+          <td>{{vm.statistics.totalItemsNotPaid | currency: 'EUR'}}</td>
+          <td>{{vm.statistics.totalItemsPaid | currency: 'EUR'}} </td>
+          <td>{{vm.statistics.taxNotPaid | currency: 'EUR'}} </td>
+          <td>{{vm.statistics.taxPaid | currency: 'EUR'}} </td>
+          <td>{{vm.statistics.shippingNotPaid | currency: 'EUR'}} </td>
+          <td>{{vm.statistics.shippingPaid | currency: 'EUR'}} </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-template>
+</div>

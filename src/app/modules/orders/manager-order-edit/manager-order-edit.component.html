@@ -1,0 +1,96 @@
+<div *ngIf="vm$ | async as vm">
+  <div *ngIf="vm.order">
+    <div class="row my-3">
+      <div class="col-md-6">
+        <a class="btn btn-secondary" [routerLink]="['/buy/manager/order-list']" role="button">
+          <fa-icon [icon]="faArrowLeft"></fa-icon>
+        </a>
+        <h3 class="my-3"><strong>Update Order Status</strong></h3>
+      </div>
+      <div class="col-md-6">
+        <h5>Order: {{vm.order._id}}</h5>
+        <h5>placed on: {{vm.order.createdAt | date:'medium'}}</h5>
+        <h5>Customer Name: {{vm.order.user && vm.order.user.firstName}} {{vm.order.user &&
+          vm.order.user.username}}</h5>
+      </div>
+    </div>
+
+    <div class="row my-3">
+      <div class="col-md-6">
+        <h5><strong>Invoice Status:</strong></h5>
+        <div class="card my-3">
+          <div *ngIf="vm.order.isPaid" class="card-header  border-success">Order has been paid on
+            {{vm.order.paidAt | date:'medium'}}</div>
+          <div *ngIf="!vm.order.isPaid" class="card-header  border-danger">Order is not paid</div>
+        </div>
+        <div class="card my-3">
+          <div *ngIf="vm.order.invoiceSent" class="card-header  border-success">Invoice has been sent on
+            {{vm.order.invoiceAt | date:'medium'}}</div>
+          <div *ngIf="!vm.order.invoiceSent" class="card-header  border-danger">Invoice is not sent</div>
+          <button type="button" class="btn btn-secondary col-12 my-3" (click)="sendInvoice()"
+            [disabled]="!vm.order.isPaid || vm.order.invoiceSent || vm.order.returnActive">
+            Mark Invoice as sent
+          </button>
+        </div>
+
+        <h5 class="mt-5"><strong>Return Status:</strong></h5>
+        <div class="card my-3" *ngIf="vm.order.returnActive">
+          <div *ngIf="vm.order.refund" class="card-header  border-success">Refund has been paid
+            {{vm.order.refundAt | date:'medium'}}</div>
+          <div *ngIf="vm.order.isPaid  && !vm.order.refund" class="card-header  border-danger">Refund is not
+            paid</div>
+          <button type="button" class="btn btn-secondary col-12 my-3" (click)="refundPaid()"
+            [disabled]="vm.order.isPaid && vm.order.isSent && !vm.order.returnReceived || !vm.order.isPaid || vm.order.refund">
+            Mark Refund as paid
+          </button>
+        </div>
+
+        <div *ngIf="!vm.order.returnActive" class="card-header  border-success my-3">No Return for this Order
+        </div>
+        <div class="card my-3" *ngIf="vm.order.returnActive">
+          <div *ngIf="!vm.order.returnClosed" class="card-header  border-danger">
+            Return is active</div>
+          <div *ngIf="vm.order.returnClosed" class="card-header  border-success">
+            Return is closed</div>
+          <button type="button" class="btn btn-secondary col-12 my-3" (click)="returnClosed()"
+            [disabled]="vm.order.isPaid && vm.order.isSent && !vm.order.returnReceived || vm.order.isPaid && !vm.order.refund || vm.order.returnClosed">
+            Mark Return as closed
+          </button>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <h5><strong>Delivery Status:</strong></h5>
+        <div class="card my-3">
+          <div *ngIf="vm.order.isSent" class="card-header  border-success">Order has been dispatched on
+            {{vm.order.sentAt | date:'medium'}}</div>
+          <div *ngIf="!vm.order.isSent" class="card-header  border-danger">Order is not dispatched </div>
+          <button type="button" class="btn btn-secondary col-12 my-3" (click)="sendOrder()"
+            [disabled]="!vm.order.isPaid || vm.order.returnActive || vm.order.isSent">
+            Mark Order as sent
+          </button>
+
+          <div *ngIf="vm.order.isDelivered" class="card-header  border-success">Order has been delivered on
+            {{vm.order.deliveredAt | date:'medium'}}</div>
+          <div *ngIf="!vm.order.isDelivered" class="card-header  border-danger">Order is not delivered
+          </div>
+          <button type="button" class="btn btn-secondary col-12 my-3" (click)="deliverOrder()"
+            [disabled]="vm.order.isDelivered || !vm.order.isSent || vm.order.returnActive">
+            Mark Order as delivered
+          </button>
+        </div>
+
+        <div class="card my-5" *ngIf="vm.order.returnActive">
+          <div *ngIf="vm.order.returnReceived" class="card-header  border-success">Return has been received
+            {{vm.order.returnReceivedAt | date:'medium'}}</div>
+          <div *ngIf="vm.order.isSent  && !vm.order.returnReceived" class="card-header  border-danger">Return is not
+            received</div>
+          <button type="button" class="btn btn-secondary col-12 my-3" (click)="returnReceived()"
+            [disabled]="!vm.order.isSent || vm.order.returnReceived">
+            Mark Return as received
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
